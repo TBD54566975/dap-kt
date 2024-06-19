@@ -10,4 +10,4 @@ if [ ! -d "./target/dokka-cli" ]; then
   wget -O ./target/dokka-cli/freemarker.jar https://repo1.maven.org/maven2/org/freemarker/freemarker/2.3.31/freemarker-2.3.31.jar
 fi
 
-java -jar ./target/dokka-cli/dokka-cli.jar ./scripts/dokka-configuration.json
+java -jar ./target/dokka-cli/dokka-cli.jar ./dokka/config.json
