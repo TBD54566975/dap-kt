@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Artifact Information -->
+  <groupId>xyz.block</groupId>
+  <artifactId>dap</artifactId>
+  <version>0.1.0</version>
+  <name>DAP</name>
+  <description>DAP SDK</description>
+  <packaging>pom</packaging>
+
+  <inceptionYear>2024</inceptionYear>
+
+  <scm>
+    <connection>scm:git:git://github.com/TBD54566975/dap-kt.git</connection>
+    <!-- This has to be HTTPS, not git://, for maven-release-plugin to do AUTH correctly -->
+    <developerConnection>scm:git:https://github.com/TBD54566975/dap-kt.git</developerConnection>
+    <url>https://github.com/TBD54566975/dap-kt</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>TBD54566975</id>
+      <name>Block, Inc.</name>
+      <email>releases@tbd.email</email>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+
+  <!-- Properties -->
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <kotlin.jvm.target>11</kotlin.jvm.target>
+    <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+    <project.scm.id>github</project.scm.id>
+    <version.xyz.block.web5>1.1.2</version.xyz.block.web5>
+
+  </properties>
+
+  <!-- Dependency Management -->
+  <dependencyManagement>
+
+    <dependencies>
+      <!-- Web5 BOM; sets appropriate deps for the platform-->
+      <dependency>
+        <groupId>xyz.block</groupId>
+        <artifactId>web5-parent</artifactId>
+        <version>${version.xyz.block.web5}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>xyz.block</groupId>
+      <artifactId>web5-dids</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+  </dependencies>
+
+  <!-- Build Configuration -->
+  <build>
+
+  </build>
+
+  <profiles>
+    <!-- Inherited from web5-parent -->
+  </profiles>
+
+  <distributionManagement>
+    <!-- Inherited from web5-parent -->
+  </distributionManagement>
+
+  <repositories>
+    <!--
+    Cannot be inherited because the parent POM is in here, so we
+    need to be able to get the parent before we inherit configs from it
+    -->
+    <repository>
+      <id>tbd-oss-snapshots</id>
+      <name>tbd-oss-snapshots</name>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://blockxyz.jfrog.io/artifactory/tbd-oss-snapshots-maven2/</url>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <!-- Inherited from web5-parent -->
+  </pluginRepositories>
+
+</project>
