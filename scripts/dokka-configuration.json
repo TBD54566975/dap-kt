@@ -1,0 +1,32 @@
+{
+  "moduleName": "DAP SDK",
+  "failOnWarning": false,
+  "suppressObviousFunctions": true,
+  "suppressInheritedMembers": false,
+  "offlineMode": false,
+  "outputDir": "./target/apidocs",
+  "sourceSets": [
+    {
+      "documentedVisibilities": [
+        "PUBLIC",
+        "PROTECTED"
+      ],
+      "sourceSetID": {
+        "scopeId": "dap",
+        "sourceSetName": "main"
+      },
+      "sourceRoots": [
+        "src/main/kotlin"
+      ],
+      "includes": [
+        "Module.md"
+      ]
+    }
+  ],
+  "pluginsClasspath": [
+    "./target/dokka-cli/dokka-base.jar",
+    "./target/dokka-cli/kotlinx-html-jvm.jar",
+    "./target/dokka-cli/analysis-kotlin-descriptors.jar",
+    "./target/dokka-cli/freemarker.jar"
+  ]
+}
