@@ -9,3 +9,10 @@ docs:
   set -euo pipefail
 
   ./dokka/gen.sh
+
+# Runs tests
+test:
+  #!/bin/bash
+  set -euo pipefail
+
+  mvn test
