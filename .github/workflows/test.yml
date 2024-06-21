@@ -1,5 +1,7 @@
 name: test
 
+# triggered by push to main, pull request to main, or manual workflow dispatch. Runs tests on macOS and Ubuntu
+
 on:
   workflow_dispatch:
   push:
