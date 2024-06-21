@@ -1,0 +1,38 @@
+name: test
+
+# triggered by push to main, pull request to main, or manual workflow dispatch. Runs tests on macOS and Ubuntu
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-macos:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v4
+      # https://cashapp.github.io/hermit/usage/ci/
+      - name: Init Hermit
+        uses: cashapp/activate-hermit@v1
+        with:
+          cache: true
+      - name: Build and Test
+        run: |
+          mvn test
+  test-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # https://cashapp.github.io/hermit/usage/ci/
+      - name: Init Hermit
+        uses: cashapp/activate-hermit@v1
+        with:
+          cache: true
+      - name: Build and Test
+        run: |
+          mvn test

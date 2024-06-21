@@ -1,0 +1,68 @@
+name: snapshot release
+
+# triggered manually via the GitHub Actions interface (workflow_dispatch). It is designed to publish 
+# a snapshot version of the sdk. useful for testing and debugging
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to publish. For example "1.0.0-SNAPSHOT". If not supplied, will default to version specified in the POM. Must end in "-SNAPSHOT".'
+        required: false
+        default: "0.0.0-SNAPSHOT"
+
+jobs:
+  publish-snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # https://cashapp.github.io/hermit/usage/ci/
+      - name: Init Hermit
+        uses: cashapp/activate-hermit@v1
+        with:
+          cache: true
+
+      - name: Resolve Snapshot Version
+        id: resolve_version
+        run: |
+          # Version resolution: use provided
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            resolvedVersion=${{ github.event.inputs.version }}
+          # Otherwise, construct a version for deployment in form X.Y.Z-commit-$shortSHA-SNAPSHOT
+          else
+            longSHA=$(git rev-parse --verify HEAD)
+            shortSHA=$(echo "${longSHA:0:7}")
+            resolvedVersion="commit-$shortSHA-SNAPSHOT"
+            echo "Requesting deployment as version: $resolvedVersion"
+          fi
+
+          # Postcondition check; only allow this to proceed if we have a version ending in "-SNAPSHOT"
+          if [[ ! "$resolvedVersion" =~ -SNAPSHOT$ ]]; then
+            echo "Error: The version does not end with \"-SNAPSHOT\": $resolvedVersion"
+            exit 1
+          fi
+
+          echo "Resolved SNAPSHOT Version: $resolvedVersion"
+          echo "resolved_version=$resolvedVersion" >> $GITHUB_OUTPUT
+      - name: Build, Test, and Deploy to TBD Artifactory
+        run: |
+          # Set newly resolved version in POM config
+          mvn \
+            versions:set \
+            --batch-mode \
+            -DnewVersion=${{ steps.resolve_version.outputs.resolved_version }}
+
+          # Only attempt to publish artifact if we have credentials
+          if [ -n "${{ secrets.ARTIFACTORY_PASSWORD }}" ]; then
+            # Maven deploy lifecycle will build, run tests, verify, sign, and deploy
+            mvn deploy --batch-mode --settings .maven_settings.xml -P sign-artifacts
+          else
+            # Otherwise, Maven verify lifecycle will build, run tests, and verify
+            mvn verify --batch-mode
+          fi
+
+        env:
+          ARTIFACTORY_USERNAME: ${{ secrets.ARTIFACTORY_USERNAME }}
+          ARTIFACTORY_PASSWORD: ${{ secrets.ARTIFACTORY_PASSWORD }}
+          SIGN_KEY_PASS: ${{ secrets.GPG_SECRET_PASSPHRASE }}
+          SIGN_KEY: ${{ secrets.GPG_SECRET_KEY }}
