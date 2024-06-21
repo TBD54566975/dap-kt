@@ -14,7 +14,7 @@
 #   * Create GitHub Release "v$version"
 #   * Publish API Docs
 
-name: Release and Publish
+name: release
 on:
   workflow_dispatch:
     inputs:
@@ -22,7 +22,7 @@ on:
         description: '(Required) The version to release. Must be a real version, not a SNAPSHOT (ie. ending in "-SNAPSHOT"). For example "1.0.0", "1.0.0-alpha-1".'
         required: true
 jobs:
-  release-publish-tbd-artifactory:
+  release-artifactory:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -84,8 +84,8 @@ jobs:
           SIGN_KEY_PASS: ${{ secrets.GPG_SECRET_PASSPHRASE }}
           SIGN_KEY: ${{ secrets.GPG_SECRET_KEY }}
 
-  publish-publicly:
-    needs: release-publish-tbd-artifactory
+  release-maven-central:
+    needs: release-artifactory
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -136,9 +136,9 @@ jobs:
           prerelease: false
           generate_release_notes: true
 
-  deploy-api-docs:
+  publish-docs:
     runs-on: ubuntu-latest
-    needs: [publish-publicly]
+    needs: [release-maven-central]
     steps:
       - uses: actions/download-artifact@v2
         with:
