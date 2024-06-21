@@ -182,7 +182,7 @@
               <goal>check</goal>
             </goals>
             <configuration>
-              <config>config/detekt.yml</config>
+              <config>detekt.yml</config>
             </configuration>
           </execution>
         </executions>
