@@ -43,6 +43,7 @@
 
 
   <properties>
+    <project.scm.id>github</project.scm.id>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.jvm.target>11</kotlin.jvm.target>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
