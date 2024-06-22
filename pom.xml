@@ -345,7 +345,7 @@
       <id>sonatype-oss-snapshots</id>
       <name>sonatype-oss-snapshots</name>
       <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-      <snapshots/>
+      <snapshots />
     </repository>
   </repositories>
 
