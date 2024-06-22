@@ -6,8 +6,44 @@
   <artifactId>dap</artifactId>
   <version>0.0.0-main-SNAPSHOT</version>
   <name>DAP SDK</name>
+  <description>Decentralized Agnostic Paytag SDK for JVM</description>
+  <inceptionYear>2023</inceptionYear>
+
+  <scm>
+    <connection>scm:git:git://github.com/TBD54566975/dap-kt.git</connection>
+    <!-- This has to be HTTPS, not git://, for maven-release-plugin to do AUTH correctly -->
+    <developerConnection>scm:git:https://github.com/TBD54566975/dap-kt.git</developerConnection>
+    <url>https://github.com/TBD54566975/dap-kt</url>
+    <tag>HEAD</tag>
+  </scm>
+
+  <developers>
+    <developer>
+      <id>TBD54566975</id>
+      <name>Block, Inc.</name>
+      <email>releases@tbd.email</email>
+    </developer>
+  </developers>
+
+  <!-- Issues -->
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/TBD54566975/dap-kt/issues</url>
+  </issueManagement>
+
+  <!-- Licenses -->
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+
 
   <properties>
+    <project.scm.id>github</project.scm.id>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.jvm.target>11</kotlin.jvm.target>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
