@@ -1,5 +1,5 @@
 {
-  "moduleName": "DAP SDK",
+  "moduleName": "dap",
   "failOnWarning": false,
   "suppressObviousFunctions": true,
   "suppressInheritedMembers": false,
