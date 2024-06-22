@@ -7,7 +7,8 @@
   <version>0.0.0-main-SNAPSHOT</version>
   <name>DAP SDK</name>
   <description>Decentralized Agnostic Paytag SDK for JVM</description>
-  <inceptionYear>2023</inceptionYear>
+  <url>https://github.com/TBD54566975/dap</url>
+  <inceptionYear>2024</inceptionYear>
 
   <scm>
     <connection>scm:git:git://github.com/TBD54566975/dap-kt.git</connection>
@@ -234,6 +235,19 @@
             <version>0.0.2</version>
           </dependency>
         </dependencies>
+      </plugin>
+      <plugin>
+        <groupId>org.jetbrains.dokka</groupId>
+        <artifactId>dokka-maven-plugin</artifactId>
+        <version>1.9.20</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>javadocJar</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
