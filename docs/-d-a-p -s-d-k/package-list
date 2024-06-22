@@ -1,0 +1,43 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:xyz.block.dap////PointingToDeclaration/-d-a-p -s-d-k/xyz.block.dap/index.html
+$dokka.location:xyz.block.dap/DAP///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.dap/-d-a-p/index.html
+$dokka.location:xyz.block.dap/DAP/DAP/#kotlin.String#kotlin.String/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.dap/-d-a-p/-d-a-p.html
+$dokka.location:xyz.block.dap/DAP/domain/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.dap/-d-a-p/domain.html
+$dokka.location:xyz.block.dap/DAP/handle/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.dap/-d-a-p/handle.html
+$dokka.location:xyz.block.dap/DAP/toString/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.dap/-d-a-p/to-string.html
+$dokka.location:xyz.block.maddr.urn////PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/index.html
+$dokka.location:xyz.block.maddr.urn/InvalidUrnException///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-invalid-urn-exception/index.html
+$dokka.location:xyz.block.maddr.urn/InvalidUrnException/InvalidUrnException/#kotlin.String#kotlin.String/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-invalid-urn-exception/-invalid-urn-exception.html
+$dokka.location:xyz.block.maddr.urn/InvalidUrnException/invalidValue/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-invalid-urn-exception/invalid-value.html
+$dokka.location:xyz.block.maddr.urn/InvalidUrnException/reason/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-invalid-urn-exception/reason.html
+$dokka.location:xyz.block.maddr.urn/URN.Companion///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/-companion/index.html
+$dokka.location:xyz.block.maddr.urn/URN.Companion/PREFIX/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/-companion/-p-r-e-f-i-x.html
+$dokka.location:xyz.block.maddr.urn/URN.Companion/parse/#kotlin.String/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/-companion/parse.html
+$dokka.location:xyz.block.maddr.urn/URN///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/index.html
+$dokka.location:xyz.block.maddr.urn/URN/URN/#kotlin.String#kotlin.String/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/-u-r-n.html
+$dokka.location:xyz.block.maddr.urn/URN/nid/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/nid.html
+$dokka.location:xyz.block.maddr.urn/URN/nss/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/nss.html
+$dokka.location:xyz.block.maddr.urn/URN/toString/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr.urn/-u-r-n/to-string.html
+$dokka.location:xyz.block.maddr////PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/index.html
+$dokka.location:xyz.block.maddr//toMoneyAddresses/xyz.block.maddr.DidService#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/to-money-addresses.html
+$dokka.location:xyz.block.maddr/DidService///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-did-service/index.html
+$dokka.location:xyz.block.maddr/DidService/DidService/#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-did-service/-did-service.html
+$dokka.location:xyz.block.maddr/DidService/id/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-did-service/id.html
+$dokka.location:xyz.block.maddr/DidService/serviceEndpoints/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-did-service/service-endpoints.html
+$dokka.location:xyz.block.maddr/DidService/type/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-did-service/type.html
+$dokka.location:xyz.block.maddr/InvalidMoneyAddressException///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-invalid-money-address-exception/index.html
+$dokka.location:xyz.block.maddr/InvalidMoneyAddressException/InvalidMoneyAddressException/#kotlin.String/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-invalid-money-address-exception/-invalid-money-address-exception.html
+$dokka.location:xyz.block.maddr/InvalidMoneyAddressException/invalidValue/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-invalid-money-address-exception/invalid-value.html
+$dokka.location:xyz.block.maddr/MoneyAddress.Companion///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/-companion/index.html
+$dokka.location:xyz.block.maddr/MoneyAddress.Companion/KIND/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/-companion/-k-i-n-d.html
+$dokka.location:xyz.block.maddr/MoneyAddress///PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/index.html
+$dokka.location:xyz.block.maddr/MoneyAddress/MoneyAddress/#kotlin.String#xyz.block.maddr.urn.URN#kotlin.String#kotlin.String/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/-money-address.html
+$dokka.location:xyz.block.maddr/MoneyAddress/css/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/css.html
+$dokka.location:xyz.block.maddr/MoneyAddress/currency/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/currency.html
+$dokka.location:xyz.block.maddr/MoneyAddress/id/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/id.html
+$dokka.location:xyz.block.maddr/MoneyAddress/urn/#/PointingToDeclaration/-d-a-p -s-d-k/xyz.block.maddr/-money-address/urn.html
+xyz.block.dap
+xyz.block.maddr
+xyz.block.maddr.urn
+
