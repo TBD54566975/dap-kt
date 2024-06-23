@@ -1,6 +1,6 @@
 package xyz.block.maddr.urn
 
-data class URN(
+data class Urn(
   val nid: String,
   val nss: String
 ) {
@@ -13,7 +13,7 @@ data class URN(
   companion object {
     const val PREFIX = "urn:"
 
-    fun parse(input: String): URN {
+    fun parse(input: String): Urn {
       if (!input.startsWith(PREFIX)) {
         throw InvalidUrnException("incorrect prefix", input)
       }
@@ -30,7 +30,7 @@ data class URN(
       if (nss.isBlank() || nss == urnBody) {
         throw InvalidUrnException("missing nss", input)
       }
-      return URN(nid, nss)
+      return Urn(nid, nss)
     }
   }
 }

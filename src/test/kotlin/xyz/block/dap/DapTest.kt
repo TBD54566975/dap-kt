@@ -4,17 +4,17 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
-class DAPTest {
+class DapTest {
 
   @Test
   fun testDapToString() {
-    val dap = DAP("handle", "domain.com")
+    val dap = Dap("handle", "domain.com")
     assertEquals("@handle/domain.com'", dap.toString())
   }
 
   @Test
   fun testParseDap() {
-    val dap = DAP.parse("@handle/domain.com")
+    val dap = Dap.parse("@handle/domain.com")
     assertEquals("handle", dap.handle)
     assertEquals("domain.com", dap.domain)
   }
@@ -34,7 +34,7 @@ class DAPTest {
     )
     for (dap in invalidDaps) {
       val exception = assertThrows(DAPParserException::class.java) {
-        DAP.parse(dap)
+        Dap.parse(dap)
       }
       assertEquals("Invalid DAP: $dap", exception.message)
       assertEquals("DAPParserException(invalidValue=$dap)", exception.toString())
