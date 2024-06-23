@@ -2,9 +2,7 @@ package xyz.block.maddr
 
 import xyz.block.maddr.MoneyAddress.Companion.KIND
 import xyz.block.maddr.urn.Urn
-
-// TODO(aparker) - placeholder, this should come from web5-kt
-data class DidService(val id: String, val type: String, val serviceEndpoints: List<String>)
+import web5.sdk.dids.didcore.Service
 
 data class MoneyAddress(
   val id: String,
@@ -17,12 +15,12 @@ data class MoneyAddress(
   }
 }
 
-fun DidService.toMoneyAddresses(): List<MoneyAddress> {
+fun Service.toMoneyAddresses(): List<MoneyAddress> {
   if (type != KIND) {
     throw InvalidMoneyAddressException
   }
 
-  return serviceEndpoints.map { endpoint ->
+  return serviceEndpoint.map { endpoint ->
     val urn = Urn.parse(endpoint)
     MoneyAddress(
       id = id,
