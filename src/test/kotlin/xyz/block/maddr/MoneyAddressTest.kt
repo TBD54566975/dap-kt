@@ -4,12 +4,13 @@ import org.junit.jupiter.api.assertThrows
 import xyz.block.maddr.urn.InvalidUrnException
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import web5.sdk.dids.didcore.Service
 
 class MoneyAddressTest {
 
   @Test
   fun testDidToMoneyAddress() {
-    val did = DidService("didpay", "maddr", listOf("urn:nid:nss"))
+    val did = Service("didpay", "maddr", listOf("urn:nid:nss"))
 
     val moneyAddresses = did.toMoneyAddresses()
     assertEquals(1, moneyAddresses.size)
@@ -22,7 +23,7 @@ class MoneyAddressTest {
 
   @Test
   fun testDidToMultipleMoneyAddresses() {
-    val did = DidService(
+    val did = Service(
       "cashapp",
       "maddr",
       listOf(
@@ -61,7 +62,7 @@ class MoneyAddressTest {
   @Test
   fun testDidToMoneyAddressInvalidServiceType() {
     assertThrows<InvalidMoneyAddressException> {
-      val did = DidService("didpay", "not-maddr", listOf("urn:nid:nss"))
+      val did = Service("didpay", "not-maddr", listOf("urn:nid:nss"))
       did.toMoneyAddresses()
     }
   }
@@ -69,7 +70,7 @@ class MoneyAddressTest {
   @Test
   fun testDidToMoneyAddressInvalidUrn() {
     assertThrows<InvalidUrnException> {
-      val did = DidService("didpay", "maddr", listOf("not-a-urn"))
+      val did = Service("didpay", "maddr", listOf("not-a-urn"))
       did.toMoneyAddresses()
     }
   }
