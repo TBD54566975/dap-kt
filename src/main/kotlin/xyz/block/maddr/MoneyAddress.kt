@@ -1,14 +1,14 @@
 package xyz.block.maddr
 
 import xyz.block.maddr.MoneyAddress.Companion.KIND
-import xyz.block.maddr.urn.URN
+import xyz.block.maddr.urn.Urn
 
 // TODO(aparker) - placeholder, this should come from web5-kt
 data class DidService(val id: String, val type: String, val serviceEndpoints: List<String>)
 
 data class MoneyAddress(
   val id: String,
-  val urn: URN,
+  val urn: Urn,
   val currency: String,
   val css: String
 ) {
@@ -19,11 +19,11 @@ data class MoneyAddress(
 
 fun DidService.toMoneyAddresses(): List<MoneyAddress> {
   if (type != KIND) {
-    throw InvalidMoneyAddressException("invalid service type: $type")
+    throw InvalidMoneyAddressException
   }
 
   return serviceEndpoints.map { endpoint ->
-    val urn = URN.parse(endpoint)
+    val urn = Urn.parse(endpoint)
     MoneyAddress(
       id = id,
       urn = urn,
@@ -33,5 +33,4 @@ fun DidService.toMoneyAddresses(): List<MoneyAddress> {
   }
 }
 
-data class InvalidMoneyAddressException(val invalidValue: String) :
-  Throwable("Invalid MoneyAddress: $invalidValue")
+object InvalidMoneyAddressException : Throwable("Invalid MoneyAddress")
