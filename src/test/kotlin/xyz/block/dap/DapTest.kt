@@ -33,7 +33,7 @@ class DapTest {
       "@handle/domain.com/",
     )
     for (dap in invalidDaps) {
-      val exception = assertThrows<DapParserException> {
+      val exception = assertThrows<InvalidDapException> {
         Dap.parse(dap)
       }
       assertEquals("Invalid DAP", exception.message)

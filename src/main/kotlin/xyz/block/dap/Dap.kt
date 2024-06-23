@@ -14,14 +14,14 @@ data class Dap(
     const val PREFIX = "@"
     const val SEPARATOR = "/"
 
-    private const val DAP_REGEX = """^$PREFIX([^$PREFIX/]+)/([^$PREFIX/]+)$"""
+    private const val DAP_REGEX = """^$PREFIX([^$PREFIX$SEPARATOR]+)$SEPARATOR([^$PREFIX$SEPARATOR]+)$"""
     private val DAP_PATTERN = Pattern.compile(DAP_REGEX)
 
     fun parse(dap: String): Dap {
       val matcher = DAP_PATTERN.matcher(dap)
       matcher.find()
       if (!matcher.matches()) {
-        throw DapParserException
+        throw InvalidDapException
       }
       val handle = matcher.group(1)
       val domain = matcher.group(2)
@@ -31,4 +31,4 @@ data class Dap(
   }
 }
 
-object DapParserException : Throwable(message = "Invalid DAP")
+object InvalidDapException : Throwable(message = "Invalid DAP")

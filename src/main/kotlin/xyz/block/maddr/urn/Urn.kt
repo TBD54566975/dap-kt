@@ -1,5 +1,7 @@
 package xyz.block.maddr.urn
 
+import java.util.regex.Pattern
+
 data class Urn(
   val nid: String,
   val nss: String
@@ -12,24 +14,19 @@ data class Urn(
 
   companion object {
     const val PREFIX = "urn:"
+    private const val SEPARATOR = ":"
 
-    fun parse(input: String): Urn {
-      if (!input.startsWith(PREFIX)) {
-        throw InvalidUrnException
-      }
-      val urnBody = input.substringAfter(PREFIX)
-      if (urnBody.isBlank()) {
-        throw InvalidUrnException
-      }
-      val nid = urnBody.substringBefore(":")
-      val nss = urnBody.substringAfter(":")
+    private val URN_PATTERN = Pattern.compile("""^${PREFIX}([^$SEPARATOR]+)$SEPARATOR(.+)$""")
 
-      if (nid.isBlank()) {
+    fun parse(urn: String): Urn {
+      val matcher = URN_PATTERN.matcher(urn)
+      matcher.find()
+      if (!matcher.matches()) {
         throw InvalidUrnException
       }
-      if (nss.isBlank() || nss == urnBody) {
-        throw InvalidUrnException
-      }
+      val nid = matcher.group(1)
+      val nss = matcher.group(2)
+
       return Urn(nid, nss)
     }
   }
