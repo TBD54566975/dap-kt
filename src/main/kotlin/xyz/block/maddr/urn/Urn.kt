@@ -15,25 +15,24 @@ data class Urn(
 
     fun parse(input: String): Urn {
       if (!input.startsWith(PREFIX)) {
-        throw InvalidUrnException("incorrect prefix", input)
+        throw InvalidUrnException
       }
       val urnBody = input.substringAfter(PREFIX)
       if (urnBody.isBlank()) {
-        throw InvalidUrnException("missing body", input)
+        throw InvalidUrnException
       }
       val nid = urnBody.substringBefore(":")
       val nss = urnBody.substringAfter(":")
 
       if (nid.isBlank()) {
-        throw InvalidUrnException("missing nid", input)
+        throw InvalidUrnException
       }
       if (nss.isBlank() || nss == urnBody) {
-        throw InvalidUrnException("missing nss", input)
+        throw InvalidUrnException
       }
       return Urn(nid, nss)
     }
   }
 }
 
-data class InvalidUrnException(val reason: String, val invalidValue: String) :
-  Throwable("Invalid URN: $reason: $invalidValue")
+object InvalidUrnException : Throwable("Invalid URN")

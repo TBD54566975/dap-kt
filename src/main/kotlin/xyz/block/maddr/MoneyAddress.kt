@@ -19,7 +19,7 @@ data class MoneyAddress(
 
 fun DidService.toMoneyAddresses(): List<MoneyAddress> {
   if (type != KIND) {
-    throw InvalidMoneyAddressException("invalid service type: $type")
+    throw InvalidMoneyAddressException
   }
 
   return serviceEndpoints.map { endpoint ->
@@ -33,5 +33,4 @@ fun DidService.toMoneyAddresses(): List<MoneyAddress> {
   }
 }
 
-data class InvalidMoneyAddressException(val invalidValue: String) :
-  Throwable("Invalid MoneyAddress: $invalidValue")
+object InvalidMoneyAddressException : Throwable("Invalid MoneyAddress")

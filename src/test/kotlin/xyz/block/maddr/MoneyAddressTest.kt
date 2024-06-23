@@ -1,11 +1,12 @@
 package xyz.block.maddr
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import xyz.block.maddr.urn.InvalidUrnException
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class MoneyAddressTest {
+
   @Test
   fun testDidToMoneyAddress() {
     val did = DidService("didpay", "maddr", listOf("urn:nid:nss"))
@@ -59,7 +60,7 @@ class MoneyAddressTest {
 
   @Test
   fun testDidToMoneyAddressInvalidServiceType() {
-    assertThrows(InvalidMoneyAddressException::class.java) {
+    assertThrows<InvalidMoneyAddressException> {
       val did = DidService("didpay", "not-maddr", listOf("urn:nid:nss"))
       did.toMoneyAddresses()
     }
@@ -67,10 +68,9 @@ class MoneyAddressTest {
 
   @Test
   fun testDidToMoneyAddressInvalidUrn() {
-    assertThrows(InvalidUrnException::class.java) {
+    assertThrows<InvalidUrnException> {
       val did = DidService("didpay", "maddr", listOf("not-a-urn"))
       did.toMoneyAddresses()
     }
   }
 }
-

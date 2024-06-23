@@ -10,7 +10,7 @@ data class Dap(
     return "$PREFIX$handle$SEPARATOR$domain'"
   }
 
-  companion object Parser {
+  companion object {
     const val PREFIX = "@"
     const val SEPARATOR = "/"
 
@@ -21,7 +21,7 @@ data class Dap(
       val matcher = DAP_PATTERN.matcher(dap)
       matcher.find()
       if (!matcher.matches()) {
-        throw DAPParserException(dap)
+        throw DapParserException
       }
       val handle = matcher.group(1)
       val domain = matcher.group(2)
@@ -31,5 +31,4 @@ data class Dap(
   }
 }
 
-data class DAPParserException(val invalidValue: String) :
-  Throwable(message = "Invalid DAP: $invalidValue")
+object DapParserException : Throwable(message = "Invalid DAP")

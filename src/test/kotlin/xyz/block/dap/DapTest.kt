@@ -1,8 +1,8 @@
 package xyz.block.dap
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class DapTest {
 
@@ -33,11 +33,10 @@ class DapTest {
       "@handle/domain.com/",
     )
     for (dap in invalidDaps) {
-      val exception = assertThrows(DAPParserException::class.java) {
+      val exception = assertThrows<DapParserException> {
         Dap.parse(dap)
       }
-      assertEquals("Invalid DAP: $dap", exception.message)
-      assertEquals("DAPParserException(invalidValue=$dap)", exception.toString())
+      assertEquals("Invalid DAP", exception.message)
     }
   }
 }

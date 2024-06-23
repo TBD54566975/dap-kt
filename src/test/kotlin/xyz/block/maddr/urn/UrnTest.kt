@@ -1,9 +1,11 @@
 package xyz.block.maddr.urn
 
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class UrnTest {
+
   @Test
   fun testUrnParsing() {
     val urn = Urn.parse("urn:nid:nss")
@@ -21,30 +23,21 @@ class UrnTest {
   }
 
   @Test
-  fun testUrnParsingInvalidPrefix()  {
-    assertThrows(InvalidUrnException::class.java) {
-      Urn.parse("invalid:nid:nss")
-    }
-  }
-
-  @Test
-  fun testUrnParsingEmptyNss() {
-    assertThrows(InvalidUrnException::class.java) {
-      Urn.parse("urn:nid:")
-    }
-  }
-
-  @Test
-  fun testUrnParsingMissingNss() {
-    assertThrows(InvalidUrnException::class.java) {
-      Urn.parse("urn:nid")
-    }
-  }
-
-  @Test
-  fun testUrnParsingMissingNid() {
-    assertThrows(InvalidUrnException::class.java) {
-      Urn.parse("uri:")
+  fun testParseInvalidUrn() {
+    val invalidUrns = listOf(
+      "",
+      "invalid:nid:nss",
+      "invalid::nss",
+      "invalid:nid:",
+      "invalid:nid",
+      "invalid:",
+      "invalid::",
+    )
+    for (urn in invalidUrns) {
+      val exception = assertThrows<InvalidUrnException> {
+        Urn.parse(urn)
+      }
+      assertEquals("Invalid URN", exception.message)
     }
   }
 }
