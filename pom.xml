@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>xyz.block</groupId>
   <artifactId>dap</artifactId>
-  <version>0.0.0-main-SNAPSHOT</version>
+  <version>0.3.0</version>
   <name>DAP SDK</name>
   <description>Decentralized Agnostic Paytag SDK for JVM</description>
   <url>https://github.com/TBD54566975/dap</url>
@@ -15,7 +15,7 @@
     <!-- This has to be HTTPS, not git://, for maven-release-plugin to do AUTH correctly -->
     <developerConnection>scm:git:https://github.com/TBD54566975/dap-kt.git</developerConnection>
     <url>https://github.com/TBD54566975/dap-kt</url>
-    <tag>HEAD</tag>
+    <tag>v0.3.0</tag>
   </scm>
 
   <developers>
