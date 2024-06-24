@@ -16,7 +16,8 @@ data class Dap(
 
     const val SERVICE_TYPE = "DAPRegistry"
 
-    private const val DAP_REGEX = """^$PREFIX([^$PREFIX$SEPARATOR]+)$SEPARATOR([^$PREFIX$SEPARATOR]+)$"""
+    private const val DAP_REGEX =
+      """^$PREFIX([^$PREFIX$SEPARATOR]{3,30})$SEPARATOR([^$PREFIX$SEPARATOR]+)$"""
     private val DAP_PATTERN = Pattern.compile(DAP_REGEX)
 
     fun parse(dap: String): Dap {
