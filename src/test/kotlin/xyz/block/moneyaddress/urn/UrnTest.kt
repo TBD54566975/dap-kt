@@ -1,4 +1,4 @@
-package xyz.block.maddr.urn
+package xyz.block.moneyaddress.urn
 
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test

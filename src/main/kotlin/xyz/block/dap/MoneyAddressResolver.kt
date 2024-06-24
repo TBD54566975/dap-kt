@@ -3,8 +3,8 @@ package xyz.block.dap
 import web5.sdk.dids.DidResolvers
 import web5.sdk.dids.didcore.Did
 import web5.sdk.dids.didcore.DidDocument
-import xyz.block.maddr.MoneyAddress
-import xyz.block.maddr.toMoneyAddresses
+import xyz.block.moneyaddress.MoneyAddress
+import xyz.block.moneyaddress.toMoneyAddresses
 
 // This implements part of the DAP resolution process.
 // See [Resolver] for the full resolution process.

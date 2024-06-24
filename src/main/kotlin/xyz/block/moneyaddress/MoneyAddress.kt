@@ -1,7 +1,7 @@
-package xyz.block.maddr
+package xyz.block.moneyaddress
 
-import xyz.block.maddr.MoneyAddress.Companion.KIND
-import xyz.block.maddr.urn.Urn
+import xyz.block.moneyaddress.MoneyAddress.Companion.KIND
+import xyz.block.moneyaddress.urn.Urn
 import web5.sdk.dids.didcore.Service
 
 data class MoneyAddress(
@@ -11,7 +11,7 @@ data class MoneyAddress(
   val css: String
 ) {
   companion object {
-    const val KIND: String = "maddr"
+    const val KIND: String = "MoneyAddress"
   }
 }
 

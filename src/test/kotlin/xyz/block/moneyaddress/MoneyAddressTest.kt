@@ -1,7 +1,7 @@
-package xyz.block.maddr
+package xyz.block.moneyaddress
 
 import org.junit.jupiter.api.assertThrows
-import xyz.block.maddr.urn.InvalidUrnException
+import xyz.block.moneyaddress.urn.InvalidUrnException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import web5.sdk.dids.didcore.Service
@@ -10,7 +10,7 @@ class MoneyAddressTest {
 
   @Test
   fun testDidToMoneyAddress() {
-    val did = Service("didpay", "maddr", listOf("urn:nid:nss"))
+    val did = Service("didpay", "MoneyAddress", listOf("urn:nid:nss"))
 
     val moneyAddresses = did.toMoneyAddresses()
     assertEquals(1, moneyAddresses.size)
@@ -24,8 +24,8 @@ class MoneyAddressTest {
   @Test
   fun testDidToMultipleMoneyAddresses() {
     val did = Service(
-      "cashapp",
-      "maddr",
+      "didpay",
+      "MoneyAddress",
       listOf(
         "urn:btc:addr:fakeAddress",
         "urn:btc:lnurl:http://fakeLnurl",
@@ -37,21 +37,21 @@ class MoneyAddressTest {
     assertEquals(3, moneyAddresses.size)
 
     moneyAddresses[0].let { moneyAddress ->
-      assertEquals("cashapp", moneyAddress.id)
+      assertEquals("didpay", moneyAddress.id)
       assertEquals("urn:btc:addr:fakeAddress", moneyAddress.urn.toString())
       assertEquals("btc", moneyAddress.currency)
       assertEquals("addr:fakeAddress", moneyAddress.css)
     }
 
     moneyAddresses[1].let { moneyAddress ->
-      assertEquals("cashapp", moneyAddress.id)
+      assertEquals("didpay", moneyAddress.id)
       assertEquals("urn:btc:lnurl:http://fakeLnurl", moneyAddress.urn.toString())
       assertEquals("btc", moneyAddress.currency)
       assertEquals("lnurl:http://fakeLnurl", moneyAddress.css)
     }
 
     moneyAddresses[2].let { moneyAddress ->
-      assertEquals("cashapp", moneyAddress.id)
+      assertEquals("didpay", moneyAddress.id)
       assertEquals("urn:btc:spaddr:fakeSPAddress", moneyAddress.urn.toString())
       assertEquals("btc", moneyAddress.currency)
       assertEquals("spaddr:fakeSPAddress", moneyAddress.css)
@@ -62,7 +62,7 @@ class MoneyAddressTest {
   @Test
   fun testDidToMoneyAddressInvalidServiceType() {
     assertThrows<InvalidMoneyAddressException> {
-      val did = Service("didpay", "not-maddr", listOf("urn:nid:nss"))
+      val did = Service("didpay", "not-a-MoneyAddress", listOf("urn:nid:nss"))
       did.toMoneyAddresses()
     }
   }
@@ -70,7 +70,7 @@ class MoneyAddressTest {
   @Test
   fun testDidToMoneyAddressInvalidUrn() {
     assertThrows<InvalidUrnException> {
-      val did = Service("didpay", "maddr", listOf("not-a-urn"))
+      val did = Service("didpay", "MoneyAddress", listOf("not-a-urn"))
       did.toMoneyAddresses()
     }
   }

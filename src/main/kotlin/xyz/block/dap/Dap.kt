@@ -14,7 +14,7 @@ data class Dap(
     const val PREFIX = "@"
     const val SEPARATOR = "/"
 
-    const val SERVICE_TYPE = "dapregistry"
+    const val SERVICE_TYPE = "DAPRegistry"
 
     private const val DAP_REGEX = """^$PREFIX([^$PREFIX$SEPARATOR]+)$SEPARATOR([^$PREFIX$SEPARATOR]+)$"""
     private val DAP_PATTERN = Pattern.compile(DAP_REGEX)
