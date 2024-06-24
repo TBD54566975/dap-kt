@@ -6,8 +6,8 @@ import web5.sdk.dids.didcore.Did
 import web5.sdk.dids.didcore.DidDocument
 import web5.sdk.dids.didcore.Service
 import web5.sdk.dids.methods.web.DidWeb
-import xyz.block.maddr.MoneyAddress
-import xyz.block.maddr.urn.Urn
+import xyz.block.moneyaddress.MoneyAddress
+import xyz.block.moneyaddress.urn.Urn
 import java.util.UUID
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest

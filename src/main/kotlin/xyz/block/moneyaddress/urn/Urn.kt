@@ -1,4 +1,4 @@
-package xyz.block.maddr.urn
+package xyz.block.moneyaddress.urn
 
 import java.util.regex.Pattern
 
