@@ -38,7 +38,7 @@ class RegistryResolver {
     if (dapRegistryService.serviceEndpoint.size != 1) {
       throw RegistryResolutionException("DAP registry has no service endpoints")
     }
-    // TODO - feedback to web5-kt, should this be a list or a single string?
+    // TODO - ask web5-kt - what do we do with multiple endpoints?
     return dapRegistryService.serviceEndpoint[0]
   }
 

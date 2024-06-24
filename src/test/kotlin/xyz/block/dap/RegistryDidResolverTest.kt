@@ -31,6 +31,8 @@ class RegistryDidResolverTest {
     assertEquals(VALID_DID.toString(), did.toString())
   }
 
+  // TODO - tests for error cases
+
   private fun mockEngine() = MockEngine { request ->
     when (request.url.toString()) {
       "$VALID_URL/daps/${VALID_DAP.handle}" -> {
