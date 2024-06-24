@@ -26,8 +26,12 @@ class MoneyAddressResolverTest {
   }
 
   @Test
-  fun testResolvingRegistryUrlFromDap() {
-    stubDidResolver(listOf(serviceForEndpoint("btc-on-chain", VALID_BITCOIN_ADDRESS_URN.toString())))
+  fun testResolvingMoneyAddressFromDid() {
+    stubDidResolver(
+      listOf(
+        serviceForEndpoint("btc-on-chain", VALID_BITCOIN_ADDRESS_URN.toString())
+      )
+    )
 
     val moneyAddressResolver = MoneyAddressResolver()
     val moneyAddresses = moneyAddressResolver.resolveMoneyAddresses(VALID_DID)
@@ -42,6 +46,37 @@ class MoneyAddressResolverTest {
     )
   }
 
+  @Test
+  fun testResolvingMultipleMoneyAddressServicesFromDid() {
+    stubDidResolver(
+      listOf(
+        serviceForEndpoint("btc-on-chain", VALID_BITCOIN_ADDRESS_URN.toString()),
+        serviceForEndpoint("btc-lnurl", VALID_BITCOIN_LNURL_URN),
+        serviceForEndpoint("usdc-eth", VALID_USDC_URN)
+      )
+    )
+
+    val moneyAddressResolver = MoneyAddressResolver()
+    val moneyAddresses = moneyAddressResolver.resolveMoneyAddresses(VALID_DID)
+    assertEquals(3, moneyAddresses.size)
+  }
+
+  @Test
+  fun testResolvingMultipleMoneyAddressWithMultipleUrnsFromDid() {
+    stubDidResolver(
+      listOf(
+        serviceForEndpoints(
+          "multiple-urns",
+          listOf(VALID_BITCOIN_ADDRESS_URN.toString(), VALID_BITCOIN_LNURL_URN, VALID_USDC_URN)
+        )
+      )
+    )
+
+    val moneyAddressResolver = MoneyAddressResolver()
+    val moneyAddresses = moneyAddressResolver.resolveMoneyAddresses(VALID_DID)
+    assertEquals(3, moneyAddresses.size)
+  }
+
   // TODO - tests for error cases
 
   private fun serviceForEndpoint(id: String, serviceEndpoint: String): Service {
@@ -49,6 +84,14 @@ class MoneyAddressResolverTest {
       .id(id)
       .type(MoneyAddress.KIND)
       .serviceEndpoint(listOf(serviceEndpoint))
+      .build()
+  }
+
+  private fun serviceForEndpoints(id: String, serviceEndpoints: List<String>): Service {
+    return Service.Builder()
+      .id(id)
+      .type(MoneyAddress.KIND)
+      .serviceEndpoint(serviceEndpoints)
       .build()
   }
 
@@ -68,5 +111,7 @@ class MoneyAddressResolverTest {
     val VALID_BITCOIN_ADDRESS_URN = Urn.parse("urn:btc:addr:fakeAddress")
     const val VALID_BITCOIN_ADDRESS_URN_CURRENCY = "btc"
     const val VALID_BITCOIN_ADDRESS_URN_CSS = "addr:fakeAddress"
+    val VALID_BITCOIN_LNURL_URN = "urn:btc:lnurl:fakeLnurl"
+    val VALID_USDC_URN = "urn:usdc:eth:fakeEth"
   }
 }

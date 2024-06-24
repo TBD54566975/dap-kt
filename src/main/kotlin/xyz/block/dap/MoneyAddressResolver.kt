@@ -28,8 +28,11 @@ class MoneyAddressResolver {
   }
 
   private fun parseDidDocumentForMoneyAddresses(didDocument: DidDocument): List<MoneyAddress> {
-    return didDocument.service?.find { it.type == MoneyAddress.KIND }?.toMoneyAddresses()
-      ?: emptyList()
+    val moneyAddressServices =
+      didDocument.service?.filter { it.type == MoneyAddress.KIND } ?: emptyList()
+    return moneyAddressServices.fold(emptyList()) { acc, service ->
+      acc + service.toMoneyAddresses()
+    }
   }
 }
 
