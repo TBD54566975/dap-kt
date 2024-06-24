@@ -1,5 +1,11 @@
 package xyz.block.dap
 
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respond
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
+import io.ktor.utils.io.ByteReadChannel
 import web5.sdk.dids.didcore.Did
 import java.net.URL
 import kotlin.test.AfterTest
@@ -19,9 +25,24 @@ class RegistryDidResolverTest {
 
   @Test
   fun testResolvingDidFromRegistryUrl() {
-    val registryDidResolver = RegistryDidResolver()
+    val engine = mockEngine()
+    val registryDidResolver = RegistryDidResolver { engine }
     val did = registryDidResolver.getDid(VALID_URL, VALID_DAP)
     assertEquals(VALID_DID.toString(), did.toString())
+  }
+
+  private fun mockEngine() = MockEngine { request ->
+    when (request.url.toString()) {
+      "$VALID_URL/daps/${VALID_DAP.handle}" -> {
+        respond(
+          content = ByteReadChannel("""{did: "$VALID_DID"}"""),
+          status = HttpStatusCode.OK,
+          headers = headersOf(HttpHeaders.ContentType, "application/json")
+        )
+      }
+
+      else -> error("Unhandled ${request.url}")
+    }
   }
 
   companion object {

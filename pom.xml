@@ -52,6 +52,7 @@
     <version.org.assertj>3.25.2</version.org.assertj>
     <version.org.junit.jupiter>5.10.1</version.org.junit.jupiter>
     <version.xyz.block.web5>1.1.2</version.xyz.block.web5>
+    <version.io.ktor>2.3.7</version.io.ktor>
     <version.kotlin>1.9.22</version.kotlin>
     <version.kotlin.compiler.incremental>true</version.kotlin.compiler.incremental>
   </properties>
@@ -98,6 +99,12 @@
       <groupId>org.jetbrains.kotlin</groupId>
       <artifactId>kotlin-test-junit5</artifactId>
       <version>${version.kotlin}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.ktor</groupId>
+      <artifactId>ktor-client-mock-jvm</artifactId>
+      <version>${version.io.ktor}</version>
       <scope>test</scope>
     </dependency>
 

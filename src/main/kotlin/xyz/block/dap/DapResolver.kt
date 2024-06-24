@@ -5,13 +5,14 @@ import xyz.block.maddr.MoneyAddress
 // This implements the DAP resolution process
 // See the [DAP spec](https://github.com/TBD54566975/dap#resolution)
 class DapResolver(
-  val registryResolver: RegistryResolver,
-  val registryDidResolver: RegistryDidResolver,
-  val moneyAddressResolver: MoneyAddressResolver
+  private val registryResolver: RegistryResolver = RegistryResolver(),
+  private val registryDidResolver: RegistryDidResolver = RegistryDidResolver {},
+  private val moneyAddressResolver: MoneyAddressResolver = MoneyAddressResolver()
 ) {
   fun resolveMoneyAddresses(dap: Dap): List<MoneyAddress> {
     val registryUrl = registryResolver.resolveRegistryUrl(dap)
     val did = registryDidResolver.getDid(registryUrl, dap)
-    return moneyAddressResolver.resolveMoneyAddresses(did)
+    val moneyAddresses = moneyAddressResolver.resolveMoneyAddresses(did)
+    return moneyAddresses
   }
 }
