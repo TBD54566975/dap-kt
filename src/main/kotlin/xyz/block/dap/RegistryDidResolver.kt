@@ -27,7 +27,6 @@ import java.net.UnknownHostException
 // This implements part of the DAP resolution process.
 // See [Resolver] for the full resolution process.
 // See the [DAP spec](https://github.com/TBD54566975/dap#resolution)
-
 class RegistryDidResolver(
   configuration: RegistryDidResolverConfiguration
 ) {
