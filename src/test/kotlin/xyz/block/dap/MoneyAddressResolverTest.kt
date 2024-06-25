@@ -7,7 +7,7 @@ import web5.sdk.dids.didcore.DidDocument
 import web5.sdk.dids.didcore.Service
 import web5.sdk.dids.methods.web.DidWeb
 import xyz.block.moneyaddress.MoneyAddress
-import xyz.block.moneyaddress.urn.Urn
+import xyz.block.moneyaddress.urn.DapUrn
 import java.util.UUID
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -41,7 +41,8 @@ class MoneyAddressResolverTest {
         id = "btc-on-chain",
         urn = VALID_BITCOIN_ADDRESS_URN,
         currency = VALID_BITCOIN_ADDRESS_URN_CURRENCY,
-        css = VALID_BITCOIN_ADDRESS_URN_CSS,
+        protocol = VALID_BITCOIN_ADDRESS_URN_PROTOCOL,
+        pss = VALID_BITCOIN_ADDRESS_URN_PSS,
       ), moneyAddresses[0]
     )
   }
@@ -108,10 +109,11 @@ class MoneyAddressResolverTest {
 
   companion object {
     val VALID_DID = Did.parse("did:web:didpay.me")
-    val VALID_BITCOIN_ADDRESS_URN = Urn.parse("urn:btc:addr:fakeAddress")
+    val VALID_BITCOIN_ADDRESS_URN = DapUrn.parse("urn:btc:addr:fakeAddress")
     const val VALID_BITCOIN_ADDRESS_URN_CURRENCY = "btc"
-    const val VALID_BITCOIN_ADDRESS_URN_CSS = "addr:fakeAddress"
-    val VALID_BITCOIN_LNURL_URN = "urn:btc:lnurl:fakeLnurl"
-    val VALID_USDC_URN = "urn:usdc:eth:fakeEth"
+    const val VALID_BITCOIN_ADDRESS_URN_PROTOCOL = "addr"
+    const val VALID_BITCOIN_ADDRESS_URN_PSS = "fakeAddress"
+    const val VALID_BITCOIN_LNURL_URN = "urn:btc:lnurl:fakeLnurl"
+    const val VALID_USDC_URN = "urn:usdc:eth:fakeEth"
   }
 }
