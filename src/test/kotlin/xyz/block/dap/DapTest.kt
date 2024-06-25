@@ -20,20 +20,38 @@ class DapTest {
   }
 
   @Test
+  fun testParseValidDaps() {
+    val validDaps = listOf(
+      "@123/domain.com", // min length 3
+      "@123456789012345678901234567890/domain.com", // max length 30
+      "@a-b/domain.com",
+      "@a_b/domain.com",
+    )
+    validDaps.forEach { dap ->
+      Dap.parse(dap)
+    }
+  }
+
+  @Test
   fun testParseInvalidDaps() {
     val invalidDaps = listOf(
       "",
       "a",
       "@handle",
       "@handle/",
+      "@ha/domain.com", // handle too short
+      "@1234567890123456789012345678901/domain.com", // handle too long
       "@handle@/domain.com",
+      "@handle@handle/domain.com",
       "@handle//domain.com",
+      "@handle/handle/domain.com",
       "@handle/@domain.com",
       "@handle/domain.com@",
       "@handle/domain.com/",
+      "@handle/domain.com/extra-stuff",
     )
     for (dap in invalidDaps) {
-      val exception = assertThrows<InvalidDapException> {
+      val exception = assertThrows<InvalidDapException>("expect [$dap] to be invalid") {
         Dap.parse(dap)
       }
       assertEquals("Invalid DAP", exception.message)
