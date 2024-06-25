@@ -10,15 +10,16 @@ class MoneyAddressTest {
 
   @Test
   fun testDidToMoneyAddress() {
-    val did = Service("didpay", "MoneyAddress", listOf("urn:nid:nss"))
+    val did = Service("didpay", "MoneyAddress", listOf("urn:currency:protocol:pss"))
 
     val moneyAddresses = did.toMoneyAddresses()
     assertEquals(1, moneyAddresses.size)
     val moneyAddress = moneyAddresses[0]
     assertEquals("didpay", moneyAddress.id)
-    assertEquals("urn:nid:nss", moneyAddress.urn.toString())
-    assertEquals("nid", moneyAddress.currency)
-    assertEquals("nss", moneyAddress.css)
+    assertEquals("urn:currency:protocol:pss", moneyAddress.urn.toString())
+    assertEquals("currency", moneyAddress.currency)
+    assertEquals("protocol", moneyAddress.protocol)
+    assertEquals("pss", moneyAddress.pss)
   }
 
   @Test
@@ -40,21 +41,24 @@ class MoneyAddressTest {
       assertEquals("didpay", moneyAddress.id)
       assertEquals("urn:btc:addr:fakeAddress", moneyAddress.urn.toString())
       assertEquals("btc", moneyAddress.currency)
-      assertEquals("addr:fakeAddress", moneyAddress.css)
+      assertEquals("addr", moneyAddress.protocol)
+      assertEquals("fakeAddress", moneyAddress.pss)
     }
 
     moneyAddresses[1].let { moneyAddress ->
       assertEquals("didpay", moneyAddress.id)
       assertEquals("urn:btc:lnurl:http://fakeLnurl", moneyAddress.urn.toString())
       assertEquals("btc", moneyAddress.currency)
-      assertEquals("lnurl:http://fakeLnurl", moneyAddress.css)
+      assertEquals("lnurl", moneyAddress.protocol)
+      assertEquals("http://fakeLnurl", moneyAddress.pss)
     }
 
     moneyAddresses[2].let { moneyAddress ->
       assertEquals("didpay", moneyAddress.id)
       assertEquals("urn:btc:spaddr:fakeSPAddress", moneyAddress.urn.toString())
       assertEquals("btc", moneyAddress.currency)
-      assertEquals("spaddr:fakeSPAddress", moneyAddress.css)
+      assertEquals("spaddr", moneyAddress.protocol)
+      assertEquals("fakeSPAddress", moneyAddress.pss)
     }
 
   }
@@ -62,7 +66,7 @@ class MoneyAddressTest {
   @Test
   fun testDidToMoneyAddressInvalidServiceType() {
     assertThrows<InvalidMoneyAddressException> {
-      val did = Service("didpay", "not-a-MoneyAddress", listOf("urn:nid:nss"))
+      val did = Service("didpay", "not-a-MoneyAddress", listOf("urn:nid:protocol:pss"))
       did.toMoneyAddresses()
     }
   }
