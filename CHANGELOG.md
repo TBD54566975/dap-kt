@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.5.0] - 2024-06-25
+- Change MoneyAddress to have `protocol` and `pss` fields
+
 ## [0.4.1] - 2024-06-25
 
 - (FIX) add support multiple MoneyAddress services
