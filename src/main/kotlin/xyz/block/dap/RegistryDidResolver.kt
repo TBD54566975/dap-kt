@@ -24,21 +24,66 @@ import java.net.InetAddress
 import java.net.URL
 import java.net.UnknownHostException
 
-// This implements part of the DAP resolution process.
-// See [Resolver] for the full resolution process.
-// See the [DAP spec](https://github.com/TBD54566975/dap#resolution)
-class RegistryDidResolver(
+// This uses a modified version of the scheme used in web5-kt to provide customization
+// of the configuration (see `DidWeb`).
+// The difference is that we provide two overloaded functions for constructing the resolver,
+// which look like two overloaded constructors to the caller.
+// This is instead of a single function and the use of the `Default` companion object.
+// We also don't need to expose both a `RegistryDidResolver` and `RegistryDidResolverApi`.
+
+/**
+ * A RegistryDidResolver with the default configuration.
+ */
+fun RegistryDidResolver(): RegistryDidResolver = RegistryDidResolver.default
+
+/**
+ * Constructs a RegistryDidResolver with the block configuration applied.
+ */
+fun RegistryDidResolver(
+  blockConfiguration: RegistryDidResolverConfiguration.() -> Unit
+): RegistryDidResolver {
+  val config = RegistryDidResolverConfiguration().apply(blockConfiguration)
+  return RegistryDidResolverImpl(config)
+}
+
+// This allows the RegistryDidResolver to be sealed
+private class RegistryDidResolverImpl(
+  configuration: RegistryDidResolverConfiguration
+) : RegistryDidResolver(configuration)
+
+/**
+ * Given the URL for the DAP registry and a DAP, resolves the DID using the registry.
+ */
+sealed class RegistryDidResolver(
   configuration: RegistryDidResolverConfiguration
 ) {
-  data class DidWithProof(
-    val did: Did,
-    val proof: Proof?
-  )
+  companion object {
+    /**
+     * A singleton RegistryDidResolver with the default configuration
+     */
+    internal val default: RegistryDidResolver by lazy {
+      RegistryDidResolverImpl(RegistryDidResolverConfiguration())
+    }
+  }
 
+  /**
+   * Resolves the DAP using the registry, to retrieve the DID.
+   * Does NOT verify Any proof in the response from the registry.
+   */
   fun getUnprovenDid(dapRegistryUrl: URL, dap: Dap): Did =
     getDidWithProof(dapRegistryUrl, dap).did
 
-  fun getDidWithProof(dapRegistryUrl: URL, dap: Dap): DidWithProof {
+  /*
+  // TODO - implement proof verification of the DID returned by the registry
+  // TODO - What should this do if there is no proof?
+  fun getProvableDid(dapRegistryUrl: URL, dap: Dap): Did {
+    val didWithProof = getDidWithProof(dapRegistryUrl, dap)
+    // TODO - verify the proof using web5-kt
+    return didWithProof.did
+  }
+  */
+
+  internal fun getDidWithProof(dapRegistryUrl: URL, dap: Dap): DidWithProof {
     val fullUrl = URL("$dapRegistryUrl/daps/${dap.handle}")
 
     val resp: HttpResponse = try {
@@ -47,20 +92,29 @@ class RegistryDidResolver(
           contentType(ContentType.Application.Json)
         }
       }
-    } catch (e: UnknownHostException) {
-      throw RegistryDidResolutionException("Failed to reach DAP Registry", e)
+    } catch (e: Throwable) {
+      throw RegistryDidResolutionException("Error fetching DAP from registry", e)
     }
 
     val body = runBlocking { resp.bodyAsText() }
     if (!resp.status.isSuccess()) {
       throw RegistryDidResolutionException("Failed to read from DAP registry")
     }
-    val resolutionResponse = mapper.readValue(body, DapRegistryResolutionResponse::class.java)
+    val resolutionResponse = try {
+      mapper.readValue(body, DapRegistryResolutionResponse::class.java)
+    } catch (e: Throwable) {
+      throw RegistryDidResolutionException("Failed to parse DAP registry response", e)
+    }
     if (resolutionResponse.did == null) {
       throw RegistryDidResolutionException("DAP registry did not return a DID")
     }
 
-    return DidWithProof(Did.parse(resolutionResponse.did), resolutionResponse.proof)
+    val did = try {
+      Did.parse(resolutionResponse.did)
+    } catch (e: Throwable) {
+      throw RegistryDidResolutionException("Failed to parse DID from DAP registry response", e)
+    }
+    return DidWithProof(did, resolutionResponse.proof)
   }
 
   private val engine: HttpClientEngine = configuration.engine ?: OkHttp.create {
@@ -89,6 +143,11 @@ class RegistryDidResolver(
   private val mapper = Json.jsonMapper
 }
 
+internal data class DidWithProof(
+  val did: Did,
+  val proof: Proof?
+)
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class Proof(
   val id: String,
@@ -104,18 +163,14 @@ data class DapRegistryResolutionResponse(
   val proof: Proof?
 )
 
+/**
+ * Configuration options for the [RegistryDidResolver].
+ *
+ * - [engine] is used to override the default ktor engine, which is [OkHttp].
+ */
 class RegistryDidResolverConfiguration internal constructor(
   var engine: HttpClientEngine? = null
 )
-
-fun defaultRegistryDidResolver() : RegistryDidResolver {
-  return customRegistryDidResolver {}
-}
-
-fun customRegistryDidResolver(configuration: RegistryDidResolverConfiguration.() -> Unit): RegistryDidResolver {
-  val config = RegistryDidResolverConfiguration().apply(configuration)
-  return RegistryDidResolver(config)
-}
 
 class RegistryDidResolutionException : Throwable {
   constructor(message: String, cause: Throwable?) : super(message, cause)
