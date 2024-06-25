@@ -6,6 +6,7 @@
 - add validation of DAP handle length
 - add example using the API
 - add CHANGELOG.md
+- add temp work-around for mismatching jackson fasterxml jar versions.
 
 ## [0.4.0] - 2024-06-25
 
