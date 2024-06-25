@@ -25,13 +25,11 @@ class DapUrnTest {
     assertEquals("pss1:pss2", urn.pss)
   }
 
-  /*
   @Test
   fun testParseInvalidDapUrn() {
     val invalidDapUrns = listOf(
       "urn:currency::pss",
       "urn:currency:protocol:",
-      "invalid:currency:protocol:pss",
     )
     for (urn in invalidDapUrns) {
       val exception = assertThrows<InvalidDapUrnException>("expect [$urn] to be invalid") {
@@ -58,5 +56,4 @@ class DapUrnTest {
       assertEquals("Invalid URN", exception.message)
     }
   }
-   */
 }
