@@ -56,7 +56,7 @@
     <version.kotlin>1.9.22</version.kotlin>
     <version.kotlin.compiler.incremental>true</version.kotlin.compiler.incremental>
     <!-- TEMP - attempt to work around mismatched fasterxml jar version -->
-    <version.com.fasterxml.jackson>2.17.0</version.com.fasterxml.jackson>
+    <version.com.fasterxml.jackson>2.14.2</version.com.fasterxml.jackson>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -75,7 +75,20 @@
       <groupId>xyz.block</groupId>
       <artifactId>web5-dids</artifactId>
       <version>1.1.2</version>
+      <!-- TEMP - attempt to work around mismatched fasterxml jar version -->
       <exclusions>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-annotations</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>com.fasterxml.jackson.dataformat</groupId>
           <artifactId>jackson-dataformat-cbor</artifactId>
@@ -84,6 +97,21 @@
     </dependency>
 
     <!-- TEMP - attempt to work around mismatched fasterxml jar version -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${version.com.fasterxml.jackson}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>${version.com.fasterxml.jackson}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${version.com.fasterxml.jackson}</version>
+    </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-cbor</artifactId>
