@@ -206,6 +206,7 @@
           <jvmTarget>${kotlin.jvm.target}</jvmTarget>
         </configuration>
       </plugin>
+      <!-- TODO - re-enable detekt once we are stable
       <plugin>
         <groupId>com.github.ozsie</groupId>
         <artifactId>detekt-maven-plugin</artifactId>
@@ -234,6 +235,7 @@
           </dependency>
         </dependencies>
       </plugin>
+      -->
       <plugin>
         <groupId>org.jetbrains.dokka</groupId>
         <artifactId>dokka-maven-plugin</artifactId>
