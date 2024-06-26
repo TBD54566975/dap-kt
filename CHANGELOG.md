@@ -1,7 +1,11 @@
 # Change Log
 
-## [0.5.0] - 2024-06-25
+## [0.5.1] - 2024-06-26
+- Fix Dap.toString()
+
+## [0.5.0] - 2024-06-26
 - Change MoneyAddress to have `protocol` and `pss` fields
+- Rework RegistryDidResolver
 
 ## [0.4.1] - 2024-06-25
 
