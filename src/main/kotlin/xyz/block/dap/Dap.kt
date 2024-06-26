@@ -7,7 +7,7 @@ data class Dap(
   val domain: String
 ) {
   override fun toString(): String {
-    return "$PREFIX$handle$SEPARATOR$domain'"
+    return "$PREFIX$handle$SEPARATOR$domain"
   }
 
   companion object {

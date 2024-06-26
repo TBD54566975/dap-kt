@@ -9,7 +9,7 @@ class DapTest {
   @Test
   fun testDapToString() {
     val dap = Dap("handle", "domain.com")
-    assertEquals("@handle/domain.com'", dap.toString())
+    assertEquals("@handle/domain.com", dap.toString())
   }
 
   @Test
