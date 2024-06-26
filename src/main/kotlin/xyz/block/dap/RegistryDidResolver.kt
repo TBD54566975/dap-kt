@@ -1,6 +1,7 @@
 package xyz.block.dap
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
@@ -22,7 +23,6 @@ import web5.sdk.dids.didcore.Did
 import java.io.File
 import java.net.InetAddress
 import java.net.URL
-import java.net.UnknownHostException
 
 // This uses a modified version of the scheme used in web5-kt to provide customization
 // of the configuration (see `DidWeb`).
@@ -30,6 +30,7 @@ import java.net.UnknownHostException
 // which look like two overloaded constructors to the caller.
 // This is instead of a single function and the use of the `Default` companion object.
 // We also don't need to expose both a `RegistryDidResolver` and `RegistryDidResolverApi`.
+// This is probably still too complicated.
 
 /**
  * A RegistryDidResolver with the default configuration.
@@ -57,15 +58,6 @@ private class RegistryDidResolverImpl(
 sealed class RegistryDidResolver(
   configuration: RegistryDidResolverConfiguration
 ) {
-  companion object {
-    /**
-     * A singleton RegistryDidResolver with the default configuration
-     */
-    internal val default: RegistryDidResolver by lazy {
-      RegistryDidResolverImpl(RegistryDidResolverConfiguration())
-    }
-  }
-
   /**
    * Resolves the DAP using the registry, to retrieve the DID.
    * Does NOT verify Any proof in the response from the registry.
@@ -93,28 +85,38 @@ sealed class RegistryDidResolver(
         }
       }
     } catch (e: Throwable) {
-      throw RegistryDidResolutionException("Error fetching DAP from registry", e)
+      throw RegistryDidResolutionException("Error fetching DAP from registry [dap=$dap][url=$fullUrl][error=${e.message}]", e)
     }
 
     val body = runBlocking { resp.bodyAsText() }
     if (!resp.status.isSuccess()) {
-      throw RegistryDidResolutionException("Failed to read from DAP registry")
+      throw RegistryDidResolutionException("Failed to read from DAP registry [dap=$dap][url=$fullUrl][status=${resp.status}]")
     }
     val resolutionResponse = try {
       mapper.readValue(body, DapRegistryResolutionResponse::class.java)
     } catch (e: Throwable) {
-      throw RegistryDidResolutionException("Failed to parse DAP registry response", e)
+      throw RegistryDidResolutionException("Failed to parse DAP registry response [dap=$dap][url=$fullUrl][error=${e.message}]", e)
     }
     if (resolutionResponse.did == null) {
-      throw RegistryDidResolutionException("DAP registry did not return a DID")
+      throw RegistryDidResolutionException("DAP registry did not return a DID [dap=$dap][url=$fullUrl]")
     }
 
     val did = try {
       Did.parse(resolutionResponse.did)
     } catch (e: Throwable) {
-      throw RegistryDidResolutionException("Failed to parse DID from DAP registry response", e)
+      throw RegistryDidResolutionException("Failed to parse DID from DAP registry response [dap=$dap][url=$fullUrl", e)
     }
+    logger.info { "resolved DID [dap=$dap][url=$fullUrl][did=$did]" }
     return DidWithProof(did, resolutionResponse.proof)
+  }
+
+  companion object {
+    /**
+     * A singleton RegistryDidResolver with the default configuration
+     */
+    internal val default: RegistryDidResolver by lazy {
+      RegistryDidResolverImpl(RegistryDidResolverConfiguration())
+    }
   }
 
   private val engine: HttpClientEngine = configuration.engine ?: OkHttp.create {
@@ -141,6 +143,8 @@ sealed class RegistryDidResolver(
   }
 
   private val mapper = Json.jsonMapper
+
+  private val logger = KotlinLogging.logger {}
 }
 
 internal data class DidWithProof(
@@ -166,7 +170,8 @@ data class DapRegistryResolutionResponse(
 /**
  * Configuration options for the [RegistryDidResolver].
  *
- * - [engine] is used to override the default ktor engine, which is [OkHttp].
+ * - [engine] is used to override the ktor HTTP engine.
+ * The default HTTP engine uses [OkHttp] with [DnsOverHttps] and a 10MB cache.
  */
 class RegistryDidResolverConfiguration internal constructor(
   var engine: HttpClientEngine? = null

@@ -2,32 +2,25 @@ package xyz.block.dap.examples
 
 import xyz.block.dap.Dap
 import xyz.block.dap.DapResolver
-import xyz.block.moneyaddress.MoneyAddress
 
 fun main(args: Array<String>) {
-  if (args.isEmpty()) {
-    printDapResolvedMoneyAddresses("@moegrammer/didpay.me")
-    printDapResolvedMoneyAddresses("@thejoker/didpay.me")
-    printDapResolvedMoneyAddresses("@thejoker-onchain/didpay.me")
-    printDapResolvedMoneyAddresses("@thejoker-ln/didpay.me")
-  } else {
-    args.forEach { dap ->
-      printDapResolvedMoneyAddresses(dap)
+  val dapsToResolve =
+    if (args.isEmpty()) {
+      listOf(
+        "@moegrammer2/didpay.me",
+        "@thejoker/didpay.me",
+        "@thejoker-onchain/didpay.me",
+        "@thejoker-ln/didpay.me",
+        "@thejoker/cashstaging.app",
+        // "@thejoker/127.0.0.1%3A8802",
+      )
+    } else {
+      args.toList()
     }
-  }
-}
 
-private fun printDapResolvedMoneyAddresses(value: String) {
-  println("Resolving DAP: $value")
-  val dap = Dap.parse(value)
-  val moneyAddresses: List<MoneyAddress> = DapResolver().resolveMoneyAddresses(dap)
-  println("Found ${moneyAddresses.size} money addresses")
-  moneyAddresses.forEach {
-    println(" " +
-      " currency=${it.currency}" +
-      " protocol=${it.protocol}" +
-      " pss=${it.pss}" +
-      " id=${it.id}" +
-      " urn=${it.urn}")
+  dapsToResolve.forEach { dap ->
+    try {
+      DapResolver().resolveMoneyAddresses(Dap.parse(dap))
+    } catch (_: Throwable) { }
   }
 }

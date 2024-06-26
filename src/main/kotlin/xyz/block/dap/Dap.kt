@@ -10,6 +10,10 @@ data class Dap(
     return "$PREFIX$handle$SEPARATOR$domain"
   }
 
+  fun toWebDid(): String {
+    return "did:web:${domain}"
+  }
+
   companion object {
     const val PREFIX = "@"
     const val SEPARATOR = "/"
