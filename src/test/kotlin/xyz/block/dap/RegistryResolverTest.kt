@@ -10,9 +10,11 @@ import java.util.UUID
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-class RegistryDapResolverTest {
+class RegistryResolverTest {
 
   @BeforeTest
   fun beforeTest() {
@@ -28,7 +30,7 @@ class RegistryDapResolverTest {
   fun testResolvingRegistryUrlFromDap() {
     val registryResolver = RegistryResolver()
     val url = registryResolver.resolveRegistryUrl(VALID_DAP)
-    assertEquals("$VALID_SERVICE_ENDPOINT", url.toString())
+    assertEquals(VALID_SERVICE_ENDPOINT, url.toString())
   }
 
   @Test
@@ -40,7 +42,8 @@ class RegistryDapResolverTest {
     val exception = assertThrows<RegistryResolutionException> {
       registryResolver.resolveRegistryUrl(VALID_DAP)
     }
-    assertEquals("DID resolution failed", exception.message)
+    assertNotNull(exception.message)
+    assertContains(exception.message!!, "DID resolution failed")
     assertEquals("boom!", exception.cause?.message)
   }
 
@@ -51,7 +54,8 @@ class RegistryDapResolverTest {
     val exception = assertThrows<RegistryResolutionException> {
       registryResolver.resolveRegistryUrl(VALID_DAP)
     }
-    assertEquals("DAP registry service not found", exception.message)
+    assertNotNull(exception.message)
+    assertContains(exception.message!!, "DID document has no DAP registry service")
   }
 
   @Test
@@ -61,7 +65,8 @@ class RegistryDapResolverTest {
     val exception = assertThrows<RegistryResolutionException> {
       registryResolver.resolveRegistryUrl(VALID_DAP)
     }
-    assertEquals("Invalid DAP registry url", exception.message)
+    assertNotNull(exception.message)
+    assertContains(exception.message!!, "Invalid DAP registry url")
     assertEquals("no protocol: not-a-valid-service-endpoint", exception.cause?.message)
   }
 

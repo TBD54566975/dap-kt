@@ -21,10 +21,10 @@ class MoneyAddressResolver {
     val didResolutionResult = try {
       DidResolvers.resolve(did.toString())
     } catch (e: Throwable) {
-      throw MoneyAddressResolutionException("DID resolution failed", e)
+      throw MoneyAddressResolutionException("DID resolution failed [did=$did][error=${e.message}]", e)
     }
-    didResolutionResult.didDocument?.let { return it }
-    throw MoneyAddressResolutionException("DID resolution failed with no document found")
+    return didResolutionResult.didDocument
+      ?: throw MoneyAddressResolutionException("No DID document found [did=$did]")
   }
 
   private fun parseDidDocumentForMoneyAddresses(didDocument: DidDocument): List<MoneyAddress> {

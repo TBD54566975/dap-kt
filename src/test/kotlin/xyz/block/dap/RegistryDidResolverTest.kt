@@ -10,7 +10,9 @@ import org.junit.jupiter.api.assertThrows
 import web5.sdk.dids.didcore.Did
 import java.net.URL
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
 class RegistryDidResolverTest {
 
@@ -47,7 +49,8 @@ class RegistryDidResolverTest {
       val exception = assertThrows<RegistryDidResolutionException> {
         registryDidResolver.getUnprovenDid(VALID_URL, dap)
       }
-      assertEquals(expectedMessage, exception.message)
+      assertNotNull(exception.message)
+      assertContains(exception.message!!, expectedMessage)
     }
   }
 

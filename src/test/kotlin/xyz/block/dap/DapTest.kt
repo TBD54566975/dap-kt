@@ -13,6 +13,12 @@ class DapTest {
   }
 
   @Test
+  fun testDapToWebDid() {
+    val dap = Dap("handle", "domain.com")
+    assertEquals("did:web:${dap.domain}", dap.toWebDid())
+  }
+
+  @Test
   fun testParseDap() {
     val dap = Dap.parse("@handle/domain.com")
     assertEquals("handle", dap.handle)
