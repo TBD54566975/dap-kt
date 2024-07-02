@@ -1,4 +1,4 @@
-package xyz.block.moneyaddress.currency
+package xyz.block.moneyaddress.typed
 
 open class Currency(open val scheme: String) {
   override fun toString(): String = scheme
