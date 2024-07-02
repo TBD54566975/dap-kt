@@ -1,13 +1,15 @@
 package xyz.block.moneyaddress.protocol.momo
 
 import org.junit.jupiter.api.assertThrows
-import xyz.block.moneyaddress.currency.Currency
+import xyz.block.moneyaddress.currency.KES
+import xyz.block.moneyaddress.currency.ZAR
 import xyz.block.moneyaddress.filter.FilterTest.Companion.btcOnChainMoneyAddress1
 import xyz.block.moneyaddress.filter.FilterTest.Companion.kesMomoMoneyAddress1
 import xyz.block.moneyaddress.filter.FilterTest.Companion.kesMomoMoneyAddress2
 import xyz.block.moneyaddress.filter.FilterTest.Companion.manyMoneyAddresses
 import xyz.block.moneyaddress.filter.FilterTest.Companion.zarMomoMoneyAddress1
 import xyz.block.moneyaddress.filter.FilterTest.Companion.zarMomoMoneyAddress2
+import xyz.block.moneyaddress.filter.FilterTest.Companion.zzzUnrecognizedMomoMoneyAddress1
 import xyz.block.moneyaddress.filter.hasCurrency
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,32 +19,34 @@ import kotlin.test.assertTrue
 
 class MomoAddressTest {
 
-  private val kesMomoAddress1 = MomoAddress("kes", "mpesa", "11111", kesMomoMoneyAddress1)
-  private val kesMomoAddress2 = MomoAddress("kes", "mpesa", "22222", kesMomoMoneyAddress2)
-  private val zarMomoAddress1 = MomoAddress("zar", "mpesa", "33333", zarMomoMoneyAddress1)
-  private val zarMomoAddress2 = MomoAddress("zar", "mpesa", "44444", zarMomoMoneyAddress2)
+  private val kesMpesaAddress1 = MomoAddress(KES, MPESA, "11111", kesMomoMoneyAddress1.id)
+  private val kesMpesaAddress2 = MomoAddress(KES, MPESA, "22222", kesMomoMoneyAddress2.id)
+  private val zarMpesaAddress1 = MomoAddress(ZAR, MPESA, "33333", zarMomoMoneyAddress1.id)
+  private val zarMpesaAddress2 = MomoAddress(ZAR, MPESA, "44444", zarMomoMoneyAddress2.id)
+  private val zarZZZAddress1 = MomoAddress(ZAR, UNRECOGNIZED_CARRIER("zzz"), "44444", zzzUnrecognizedMomoMoneyAddress1.id)
 
   @Test
   fun isMomoAddress() {
     assertTrue(kesMomoMoneyAddress1.isMomoAddress())
     assertFalse(btcOnChainMoneyAddress1.isMomoAddress())
+    assertTrue(zzzUnrecognizedMomoMoneyAddress1.isMomoAddress())
   }
 
   @Test
   fun asMomoAddress() {
     assertEquals(
-      kesMomoAddress1,
-      kesMomoMoneyAddress1.asMomoAddress()
+      kesMpesaAddress1,
+      kesMomoMoneyAddress1.asMomoAddressOrThrow()
     )
     assertThrows<NotAMomoAddressException> {
-      btcOnChainMoneyAddress1.asMomoAddress()
+      btcOnChainMoneyAddress1.asMomoAddressOrThrow()
     }
   }
 
   @Test
   fun asMomoAddressOrNull() {
     assertEquals(
-      kesMomoAddress1,
+      kesMpesaAddress1,
       kesMomoMoneyAddress1.asMomoAddressOrNull()
     )
     assertNull(
@@ -53,16 +57,16 @@ class MomoAddressTest {
   @Test
   fun asMomoAddresses() {
     val momoAddresses = listOf(kesMomoMoneyAddress1, zarMomoMoneyAddress1)
-    val transformed = momoAddresses.asMomoAddresses()
+    val transformed = momoAddresses.asMomoAddressesOrThrow()
     assertEquals(
       listOf(
-        kesMomoAddress1,
-        zarMomoAddress1,
+        kesMpesaAddress1,
+        zarMpesaAddress1,
       ),
       transformed
     )
     assertThrows<NotAMomoAddressException> {
-      manyMoneyAddresses.asMomoAddresses()
+      manyMoneyAddresses.asMomoAddressesOrThrow()
     }
   }
 
@@ -71,10 +75,10 @@ class MomoAddressTest {
     val transformed = manyMoneyAddresses.findMomoAddresses()
     assertEquals(
       listOf(
-        kesMomoAddress1,
-        kesMomoAddress2,
-        zarMomoAddress1,
-        zarMomoAddress2,
+        kesMpesaAddress1,
+        kesMpesaAddress2,
+        zarMpesaAddress1,
+        zarMpesaAddress2,
       ),
       transformed
     )
@@ -83,7 +87,7 @@ class MomoAddressTest {
   @Test
   fun filterByCurrencyAndType() {
     val kesMomoAddresses = manyMoneyAddresses
-      .filter { it.hasCurrency(Currency.KES) }
+      .filter { it.hasCurrency(KES) }
       .filter { it.isMomoAddress() }
     assertEquals(
       listOf(
@@ -97,12 +101,12 @@ class MomoAddressTest {
   @Test
   fun filterByCurrencyAndTypeAndTransform() {
     val zarMomoAddresses = manyMoneyAddresses
-      .filter { it.hasCurrency(Currency.ZAR) }
+      .filter { it.hasCurrency(ZAR) }
       .findMomoAddresses()
     assertEquals(
       listOf(
-        zarMomoAddress1,
-        zarMomoAddress2
+        zarMpesaAddress1,
+        zarMpesaAddress2
       ),
       zarMomoAddresses
     )

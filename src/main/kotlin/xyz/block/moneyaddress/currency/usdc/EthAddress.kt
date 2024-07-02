@@ -1,8 +1,8 @@
 package xyz.block.moneyaddress.currency.usdc
 
 import xyz.block.moneyaddress.MoneyAddress
-import xyz.block.moneyaddress.currency.Currency
-import xyz.block.moneyaddress.protocol.Protocol
+import xyz.block.moneyaddress.currency.USDC
+import xyz.block.moneyaddress.protocol.ETH
 
 data class EthAddress(
   val address: String,
@@ -13,21 +13,21 @@ data class EthAddress(
 }
 
 fun MoneyAddress.isEthAddress(): Boolean =
-  this.currency == Currency.USDC.scheme && this.protocol == Protocol.ETH.scheme
+  this.currency == USDC.scheme && this.protocol == ETH.scheme
 
-fun MoneyAddress.asEthAddress(): EthAddress {
+fun MoneyAddress.asEthAddressOrNull(): EthAddress? =
+  if (this.isEthAddress()) this.asEthAddressOrThrow() else null
+
+fun List<MoneyAddress>.findEthAddresses(): List<EthAddress> =
+  mapNotNull { it.asEthAddressOrNull() }
+
+fun MoneyAddress.asEthAddressOrThrow(): EthAddress {
   if (isEthAddress()) return EthAddress(this.pss, this)
   else throw NotAnEthAddressException(this)
 }
 
-fun List<MoneyAddress>.asEthAddresses(): List<EthAddress> =
-  this.map { it.asEthAddress() }
-
-fun MoneyAddress.asEthAddressOrNull(): EthAddress? =
-  if (this.isEthAddress()) this.asEthAddress() else null
-
-fun List<MoneyAddress>.findEthAddresses(): List<EthAddress> =
-  mapNotNull { it.asEthAddressOrNull() }
+fun List<MoneyAddress>.asEthAddressesOrThrow(): List<EthAddress> =
+  this.map { it.asEthAddressOrThrow() }
 
 class NotAnEthAddressException(moneyAddress: MoneyAddress) :
   Throwable("Not a usdc eth address [$moneyAddress]")

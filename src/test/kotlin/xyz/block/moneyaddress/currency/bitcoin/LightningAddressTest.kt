@@ -22,10 +22,10 @@ class LightningAddressTest {
   fun asLightningAddress() {
     assertEquals(
       LightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1),
-      btcLightningMoneyAddress1.asLightningAddress()
+      btcLightningMoneyAddress1.asLightningAddressOrThrow()
     )
     assertThrows<NotALightningAddressException> {
-      btcOnChainMoneyAddress1.asLightningAddress()
+      btcOnChainMoneyAddress1.asLightningAddressOrThrow()
     }
   }
 
@@ -33,38 +33,38 @@ class LightningAddressTest {
   fun asLightningAddressOrNull() {
     assertEquals(
       LightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1),
-      btcLightningMoneyAddress1.asLightningAddressOrNull()
+      btcLightningMoneyAddress1.asLightningAddress()
     )
     assertNull(
-      btcOnChainMoneyAddress1.asLightningAddressOrNull()
+      btcOnChainMoneyAddress1.asLightningAddress()
     )
   }
 
   @Test
   fun asLightningAddresses() {
-    val lightningAddresses = listOf(btcLightningMoneyAddress1, btcLightningMoneyAddress2)
-    val transformed = lightningAddresses.asLightningAddresses()
+    val lightningAddresses =
+      listOf(btcLightningMoneyAddress1, btcLightningMoneyAddress2).asLightningAddressesOrThrow()
     assertEquals(
       listOf(
         LightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1),
         LightningAddress(btcLightningMoneyAddress2.pss, btcLightningMoneyAddress2)
       ),
-      transformed
+      lightningAddresses
     )
     assertThrows<NotALightningAddressException> {
-      manyMoneyAddresses.asLightningAddresses()
+      manyMoneyAddresses.asLightningAddressesOrThrow()
     }
   }
 
   @Test
   fun findLightningAddresses() {
-    val transformed = manyMoneyAddresses.findLightningAddresses()
+    val lightningAddresses = manyMoneyAddresses.findLightningAddresses()
     assertEquals(
       listOf(
         LightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1),
         LightningAddress(btcLightningMoneyAddress2.pss, btcLightningMoneyAddress2)
       ),
-      transformed
+      lightningAddresses
     )
   }
 }

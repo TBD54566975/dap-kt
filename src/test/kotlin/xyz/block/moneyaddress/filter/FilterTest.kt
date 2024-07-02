@@ -1,9 +1,7 @@
 package xyz.block.moneyaddress.filter
 
-import xyz.block.moneyaddress.currency.Currency.BTC
-import xyz.block.moneyaddress.currency.Currency.USDC
-import xyz.block.moneyaddress.protocol.Protocol.ADDR
-import xyz.block.moneyaddress.protocol.Protocol.LNADDR
+import xyz.block.moneyaddress.currency.BTC
+import xyz.block.moneyaddress.protocol.ADDR
 import xyz.block.moneyaddress.toMoneyAddress
 import xyz.block.moneyaddress.urn.DapUrn
 import java.util.UUID
@@ -28,13 +26,13 @@ class FilterTest {
 
   @Test
   fun filterByCurrencyString() {
-    val bitcoinAddresses = manyMoneyAddresses.filter { it.hasCurrency(USDC.scheme) }
+    val zzzAddresses = manyMoneyAddresses.filter { it.hasCurrency("zzz") }
     assertEquals(
       listOf(
-        usdcEthMoneyAddress1,
-        usdcEthMoneyAddress2
+        zzzUnrecognizedMoneyAddress1,
+        zzzUnrecognizedMoneyAddress2
       ),
-      bitcoinAddresses
+      zzzAddresses
     )
   }
 
@@ -52,13 +50,13 @@ class FilterTest {
 
   @Test
   fun filterByProtocolString() {
-    val bitcoinAddresses = manyMoneyAddresses.filter { it.hasProtocol(LNADDR.scheme) }
+    val zzzAddresses = manyMoneyAddresses.filter { it.hasProtocol("zzz") }
     assertEquals(
       listOf(
-        btcLightningMoneyAddress1,
-        btcLightningMoneyAddress2
+        zzzUnrecognizedMoneyAddress1,
+        zzzUnrecognizedMoneyAddress2
       ),
-      bitcoinAddresses
+      zzzAddresses
     )
   }
 
@@ -76,6 +74,26 @@ class FilterTest {
     )
   }
 
+  // @Test
+  // fun transform() {
+  //   val lightningAddresses = manyMoneyAddresses.transform { moneyAddress ->
+  //     if (moneyAddress.isLightningAddress()) moneyAddress.asLightningAddress()
+  //     else null
+  //   }
+  //   val lightningAddresses2 = manyMoneyAddresses.transform { moneyAddress ->
+  //     moneyAddress.asLightningAddressOrNull()
+  //   }
+  //   val lightningAddresses3 = manyMoneyAddresses.asLightningAddresses()
+  //
+  //   assertEquals(
+  //     listOf(
+  //       LightningAddress(lightningAddress1, lightningAddress1.pss),
+  //       LightningAddress(lightningAddress2, lightningAddress2.pss),
+  //     ),
+  //     lightningAddresses
+  //   )
+  // }
+
   companion object {
     val btcOnChainMoneyAddress1 = makeMoneyAddress("btc", "addr")
     val btcOnChainMoneyAddress2 = makeMoneyAddress("btc", "addr")
@@ -87,6 +105,9 @@ class FilterTest {
     val kesMomoMoneyAddress2 = makeMoneyAddress("kes", "momo", "mpesa:22222")
     val zarMomoMoneyAddress1 = makeMoneyAddress("zar", "momo", "mpesa:33333")
     val zarMomoMoneyAddress2 = makeMoneyAddress("zar", "momo", "mpesa:44444")
+    val zzzUnrecognizedMoneyAddress1 = makeMoneyAddress("zzz", "zzz", "zzz1")
+    val zzzUnrecognizedMoneyAddress2 = makeMoneyAddress("zzz", "zzz", "zzz2")
+    val zzzUnrecognizedMomoMoneyAddress1 = makeMoneyAddress("zzz", "momo", "zzz:11111")
 
     val manyMoneyAddresses = listOf(
       btcOnChainMoneyAddress1,
@@ -98,7 +119,9 @@ class FilterTest {
       kesMomoMoneyAddress1,
       kesMomoMoneyAddress2,
       zarMomoMoneyAddress1,
-      zarMomoMoneyAddress2
+      zarMomoMoneyAddress2,
+      zzzUnrecognizedMoneyAddress1,
+      zzzUnrecognizedMoneyAddress2
     )
 
     private fun makeMoneyAddress(currency: String, protocol: String, pss: String? = null) =

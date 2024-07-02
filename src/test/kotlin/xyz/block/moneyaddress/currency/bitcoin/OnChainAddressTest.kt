@@ -22,48 +22,46 @@ class OnChainAddressTest {
   fun asOnChainAddress() {
     assertEquals(
       OnChainAddress(btcOnChainMoneyAddress1.pss, btcOnChainMoneyAddress1),
-      btcOnChainMoneyAddress1.asOnChainAddress()
+      btcOnChainMoneyAddress1.asOnChainAddressOrThrow()
     )
     assertThrows<NotAnOnChainAddressException> {
-      btcLightningMoneyAddress1.asOnChainAddress()
+      btcLightningMoneyAddress1.asOnChainAddressOrThrow()
     }
   }
-
 
   @Test
   fun asOnChainAddressOrNull() {
     assertEquals(
       OnChainAddress(btcOnChainMoneyAddress1.pss, btcOnChainMoneyAddress1),
-      btcOnChainMoneyAddress1.asOnChainAddressOrNull()
+      btcOnChainMoneyAddress1.asOnChainAddress()
     )
     assertNull(
-      btcLightningMoneyAddress1.asOnChainAddressOrNull()
+      btcLightningMoneyAddress1.asOnChainAddress()
     )
   }
 
-
   @Test
   fun asOnChainAddresses() {
-    val onChainAddresses = listOf(btcOnChainMoneyAddress1, btcOnChainMoneyAddress2)
-    val transformed = onChainAddresses.asOnChainAddressesOrThrow()
+    val onChainAddresses =
+      listOf(btcOnChainMoneyAddress1, btcOnChainMoneyAddress2).asOnChainAddressesOrThrow()
     assertEquals(
       listOf(
         OnChainAddress(btcOnChainMoneyAddress1.pss, btcOnChainMoneyAddress1),
         OnChainAddress(btcOnChainMoneyAddress2.pss, btcOnChainMoneyAddress2),
       ),
-      transformed
+      onChainAddresses
     )
   }
 
   @Test
   fun findOnChainAddresses() {
-    val transformed = manyMoneyAddresses.findOnChainAddresses()
+    val onChainAddresses = manyMoneyAddresses.findOnChainAddresses()
     assertEquals(
       listOf(
         OnChainAddress(btcOnChainMoneyAddress1.pss, btcOnChainMoneyAddress1),
         OnChainAddress(btcOnChainMoneyAddress2.pss, btcOnChainMoneyAddress2)
       ),
-      transformed
+      onChainAddresses
     )
   }
 }

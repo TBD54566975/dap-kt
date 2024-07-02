@@ -22,10 +22,10 @@ class EthAddressTest {
   fun asEthAddress() {
     assertEquals(
       EthAddress(usdcEthMoneyAddress1.pss, usdcEthMoneyAddress1),
-      usdcEthMoneyAddress1.asEthAddress()
+      usdcEthMoneyAddress1.asEthAddressOrThrow()
     )
     assertThrows<NotAnEthAddressException> {
-      btcOnChainMoneyAddress1.asEthAddress()
+      btcOnChainMoneyAddress1.asEthAddressOrThrow()
     }
   }
 
@@ -43,7 +43,7 @@ class EthAddressTest {
   @Test
   fun asEhtAddresses() {
     val ethAddresses = listOf(usdcEthMoneyAddress1, usdcEthMoneyAddress2)
-    val transformed = ethAddresses.asEthAddresses()
+    val transformed = ethAddresses.asEthAddressesOrThrow()
     assertEquals(
       listOf(
         EthAddress(usdcEthMoneyAddress1.pss, usdcEthMoneyAddress1),
@@ -52,7 +52,7 @@ class EthAddressTest {
       transformed
     )
     assertThrows<NotAnEthAddressException> {
-      manyMoneyAddresses.asEthAddresses()
+      manyMoneyAddresses.asEthAddressesOrThrow()
     }
   }
 
