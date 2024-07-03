@@ -1,12 +1,14 @@
-package xyz.block.moneyaddress.typed
+package xyz.block.moneyaddress
 
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.btcLightningMoneyAddress1
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.btcLightningMoneyAddress2
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.btcOnChainMoneyAddress1
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.btcOnChainMoneyAddress2
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.manyMoneyAddresses
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.zzzUnrecognizedMoneyAddress1
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.zzzUnrecognizedMoneyAddress2
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcLightningMoneyAddress1
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcLightningMoneyAddress2
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcOnChainMoneyAddress1
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcOnChainMoneyAddress2
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.manyMoneyAddresses
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zarMomoMoneyAddress1
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zarMomoMoneyAddress2
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zzzUnrecognizedMoneyAddress1
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zzzUnrecognizedMoneyAddress2
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -20,7 +22,7 @@ class FilterTest {
         btcOnChainMoneyAddress1,
         btcOnChainMoneyAddress2,
         btcLightningMoneyAddress1,
-        btcLightningMoneyAddress2
+        btcLightningMoneyAddress2,
       ),
       bitcoinAddresses
     )
@@ -32,7 +34,7 @@ class FilterTest {
     assertEquals(
       listOf(
         zzzUnrecognizedMoneyAddress1,
-        zzzUnrecognizedMoneyAddress2
+        zzzUnrecognizedMoneyAddress2,
       ),
       zzzAddresses
     )
@@ -56,7 +58,7 @@ class FilterTest {
     assertEquals(
       listOf(
         zzzUnrecognizedMoneyAddress1,
-        zzzUnrecognizedMoneyAddress2
+        zzzUnrecognizedMoneyAddress2,
       ),
       zzzAddresses
     )
@@ -69,6 +71,18 @@ class FilterTest {
       listOf(
         btcOnChainMoneyAddress1,
         btcOnChainMoneyAddress2,
+      ),
+      bitcoinAddresses
+    )
+  }
+
+  @Test
+  fun filterByCurrencyAndProtocolAsStrings() {
+    val bitcoinAddresses = manyMoneyAddresses.filter { it.matches("zar", "momo") }
+    assertEquals(
+      listOf(
+        zarMomoMoneyAddress1,
+        zarMomoMoneyAddress2,
       ),
       bitcoinAddresses
     )

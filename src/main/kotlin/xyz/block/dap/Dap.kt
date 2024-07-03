@@ -2,6 +2,13 @@ package xyz.block.dap
 
 import java.util.regex.Pattern
 
+/**
+ * A Decentralized Agnostic Paytag (DAP).
+ *
+ * A DAP consists of
+ * - a `handle` which is a unique identifier for the user within the domain
+ * - the `domain` of the DAP registry.
+ */
 data class Dap(
   val handle: String,
   val domain: String
@@ -24,6 +31,11 @@ data class Dap(
       """^$PREFIX([^$PREFIX$SEPARATOR]{3,30})$SEPARATOR([^$PREFIX$SEPARATOR]+)$"""
     private val DAP_PATTERN = Pattern.compile(DAP_REGEX)
 
+    /**
+     * Parse a string into a DAP.
+     *
+     * @throws InvalidDapException if the DAP is not a valid DAP.
+     */
     fun parse(dap: String): Dap {
       val matcher = DAP_PATTERN.matcher(dap)
       matcher.find()

@@ -2,6 +2,16 @@ package xyz.block.moneyaddress.urn
 
 import java.util.regex.Pattern
 
+/**
+ * A URN as used in the Decentralized Agnostic Paytag (DAP).
+ *
+ * A standard URN has the format `urn:<nid>:<nss>`.
+ * A DAP URN has the format `urn:<currency>:<protocol>:<pss>`.
+ *
+ * That is
+ * - the `nid` is the `currency`
+ * - the `nss` is split into the `protocol` and `pss` (protocol specific string).
+ */
 data class DapUrn(
   val currency: String,
   val protocol: String,
@@ -19,6 +29,11 @@ data class DapUrn(
     private val DAP_URN_CSS_PATTERN =
       Pattern.compile("""^([^$SEPARATOR]+)$SEPARATOR(.+)$""")
 
+    /** parse a string into a DapUrn
+     *
+     * @throws InvalidUrnException if the URN is not a valid URN.
+     * @throws InvalidDapUrnException if the URN is not a valid DAP URN.
+     */
     fun parse(value: String): DapUrn {
       val urn = Urn.parse(value)
 

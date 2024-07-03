@@ -1,11 +1,17 @@
-package xyz.block.moneyaddress.typed
+package xyz.block.moneyaddress
 
 import io.github.oshai.kotlinlogging.KotlinLogging
-import xyz.block.moneyaddress.typed.Currency.Companion.asCurrency
-import xyz.block.moneyaddress.typed.Protocol.Companion.asProtocol
+import xyz.block.moneyaddress.Currency.Companion.asCurrency
+import xyz.block.moneyaddress.Protocol.Companion.asProtocol
 import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
 
-open class MoneyAddress<T>(
+/**
+ * A type-safe representation of a MoneyAddress provided as a layer on top of [MoneyAddress]
+ *
+ * The `currency` and `protocol` are typed, allowing filtering and matching without string comparison.
+ * See [Filter.kt] for utility functions for this matching.
+ */
+open class TypedMoneyAddress<T>(
   open val address: T,
   open val currency: Currency,
   open val protocol: Protocol,
@@ -15,14 +21,21 @@ open class MoneyAddress<T>(
     "MoneyAddress(${currency.scheme}, ${protocol.scheme}, $address, $id)"
 }
 
+/**
+ * Represents a MoneyAddress that is not recognized by the [MoneyAddressRegistry].
+ */
 class UnrecognizedMoneyAddress(pss: String, currency: Currency, protocol: Protocol, id: String) :
-  MoneyAddress<String>(pss, currency, protocol, id) {
+  TypedMoneyAddress<String>(pss, currency, protocol, id) {
 
   constructor(pss: String, currency: String, protocol: String, id: String) :
     this(pss, currency.asCurrency(), protocol.asProtocol(), id)
 }
 
-typealias MoneyAddressFactory<T> = (UntypedMoneyAddress) -> MoneyAddress<T>
+/**
+ * A factory function that converts an [UntypedMoneyAddress] to a [TypedMoneyAddress].
+ * These are registered with the [MoneyAddressRegistry] in order to allow automatic conversion to the typed classes.
+ */
+typealias MoneyAddressFactory<T> = (UntypedMoneyAddress) -> TypedMoneyAddress<T>
 
 object MoneyAddressRegistry {
   fun <T> register(
@@ -58,10 +71,9 @@ object MoneyAddressRegistry {
   private val cpMappings = mutableMapOf<Pair<Currency, Protocol>, MoneyAddressFactory<*>>()
   private val pMappings = mutableMapOf<Protocol, MoneyAddressFactory<*>>()
 
-  @Suppress("IMPLICIT_NOTHING_TYPE_ARGUMENT_AGAINST_NOT_NOTHING_EXPECTED_TYPE")
-  fun UntypedMoneyAddress.toTypedMoneyAddress(): MoneyAddress<*> =
-    cpMappings[Pair(currency.asCurrency(), protocol.asProtocol())]?.let { f -> return f(this) }
-      ?: pMappings[protocol.asProtocol()]?.let { f -> return f(this) }
+  fun UntypedMoneyAddress.toTypedMoneyAddress(): TypedMoneyAddress<*> =
+    cpMappings[Pair(currency.asCurrency(), protocol.asProtocol())]?.invoke(this)
+      ?: pMappings[protocol.asProtocol()]?.invoke(this)
       ?: UnrecognizedMoneyAddress(this.pss, this.currency, this.protocol, this.id)
 
   private val logger = KotlinLogging.logger {}

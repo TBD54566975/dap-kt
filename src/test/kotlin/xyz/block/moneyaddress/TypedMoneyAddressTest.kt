@@ -1,29 +1,38 @@
-package xyz.block.moneyaddress.typed
+package xyz.block.moneyaddress
 
-import xyz.block.moneyaddress.toMoneyAddress
-import xyz.block.moneyaddress.typed.MoneyAddressRegistry.toTypedMoneyAddress
-import xyz.block.moneyaddress.typed.x.BtcLightningAddress
-import xyz.block.moneyaddress.typed.x.BtcOnChainAddress
-import xyz.block.moneyaddress.typed.x.MPESA
-import xyz.block.moneyaddress.typed.x.MobileMoneyAddress
-import xyz.block.moneyaddress.typed.x.MomoAddress
+import xyz.block.moneyaddress.MoneyAddressRegistry.toTypedMoneyAddress
+import xyz.block.moneyaddress.typed.BtcLightningAddress
+import xyz.block.moneyaddress.typed.BtcOnChainAddress
+import xyz.block.moneyaddress.typed.MPESA
+import xyz.block.moneyaddress.typed.MobileMoneyAddress
+import xyz.block.moneyaddress.typed.MomoAddress
 import xyz.block.moneyaddress.urn.DapUrn
 import java.util.UUID
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
-class MoneyAddressTest {
+class TypedMoneyAddressTest {
+
+  @BeforeTest
+  fun beforeTest() {
+    BtcLightningAddress.register()
+    BtcOnChainAddress.register()
+    MobileMoneyAddress.register()
+  }
 
   @Test
   fun toTypedAddress() {
-    val btcLightningAddress: BtcLightningAddress =
-      btcLightningMoneyAddress1.toTypedMoneyAddress() as BtcLightningAddress
+    val btcLightningAddress = btcLightningMoneyAddress1.toTypedMoneyAddress()
+    assertIs<BtcLightningAddress>(btcLightningAddress)
     assertEquals(
       BtcLightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1.id),
       btcLightningAddress
     )
 
-    val kesMomoAddress = kesMomoMoneyAddress1.toTypedMoneyAddress() as MobileMoneyAddress
+    val kesMomoAddress = kesMomoMoneyAddress1.toTypedMoneyAddress()
+    assertIs<MobileMoneyAddress>(kesMomoAddress)
     assertEquals(
       MobileMoneyAddress(KES, MomoAddress(MPESA, "11111"), kesMomoMoneyAddress1.id),
       kesMomoAddress
@@ -47,7 +56,7 @@ class MoneyAddressTest {
       manyMoneyAddresses.map { it.toTypedMoneyAddress() }.filter { it.currency == KES }
     assertEquals(
       listOf(
-        MobileMoneyAddress(KES, MomoAddress.parse(kesMomoMoneyAddress1.pss), kesMomoMoneyAddress1.id),
+        MobileMoneyAddress(KES, MomoAddress(MPESA, "11111"), kesMomoMoneyAddress1.id),
         MobileMoneyAddress(KES, MomoAddress.parse(kesMomoMoneyAddress2.pss), kesMomoMoneyAddress2.id),
       ),
       kesAddresses

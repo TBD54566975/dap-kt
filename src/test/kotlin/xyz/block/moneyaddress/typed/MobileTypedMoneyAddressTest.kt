@@ -1,13 +1,13 @@
-package xyz.block.moneyaddress.typed.x
+package xyz.block.moneyaddress.typed
 
-import xyz.block.moneyaddress.typed.KES
-import xyz.block.moneyaddress.typed.MoneyAddressTest.Companion.makeMoneyAddress
-import xyz.block.moneyaddress.typed.UNRECOGNIZED_CURRENCY
-import xyz.block.moneyaddress.typed.x.MobileMoneyAddress.Companion.toMobileMoneyAddress
+import xyz.block.moneyaddress.KES
+import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.makeMoneyAddress
+import xyz.block.moneyaddress.UNRECOGNIZED_CURRENCY
+import xyz.block.moneyaddress.typed.MobileMoneyAddress.Companion.toMobileMoneyAddress
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class MobileMoneyAddressTest {
+class MobileTypedMoneyAddressTest {
   @Test
   fun toMobileMoneyAddress() {
     assertEquals(

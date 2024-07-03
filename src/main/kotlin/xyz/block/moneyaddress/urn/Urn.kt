@@ -2,6 +2,13 @@ package xyz.block.moneyaddress.urn
 
 import java.util.regex.Pattern
 
+/**
+ * A Uniform Resource Name as defined by the IETF in [RFC-8141](https://datatracker.ietf.org/doc/html/rfc8141).
+ *
+ * A URN has the format `urn:<nid>:<nss>`.
+ * - nid is a "Namespace Identifier"
+ * - nss is a "Namespace Specific String"
+ */
 data class Urn(
   val nid: String,
   val nss: String
@@ -18,6 +25,11 @@ data class Urn(
 
     private val URN_PATTERN = Pattern.compile("""^${PREFIX}([^$SEPARATOR]+)$SEPARATOR(.+)$""")
 
+    /**
+     * Parse a string into a URN.
+     *
+     * @throws InvalidUrnException if the URN is not a valid URN.
+     */
     fun parse(urn: String): Urn {
       val matcher = URN_PATTERN.matcher(urn)
       matcher.find()
