@@ -12,9 +12,10 @@ import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
 
 /**
  * A typed representation of a MobileMoney address.
- * The `address` is a [MomoAddress] object, which has the `carrier` and `phone` number.
- * The `currency` will be determined from the [MoneyAddress].
- * The `protocol` will always be [MOBILE_MONEY].
+ *
+ * @property address - a [MomoAddress].
+ * @property currency - any [Currency]. Not validated to be a currency supported by MobileMoney.
+ * @property protocol - always [MOBILE_MONEY].
  */
 data class MobileMoneyAddress(
   override val currency: Currency,
@@ -54,8 +55,8 @@ class NotAMobileMoneyAddress(moneyAddress: UntypedMoneyAddress) :
 /**
  * A typed representation of a Momo address.
  *
- * The `carrier` is a type-safe representation of the carrier. See [Carrier]
- * The `phone` is the string representation of the phone number. This is not validated.
+ * @property carrier - a type-safe representation of the carrier. See [Carrier].
+ * @property phone - the string representation of the phone number. Not validated.
  */
 data class MomoAddress(
   val carrier: Carrier,
@@ -89,7 +90,7 @@ data class MomoAddress(
 
 /**
  * Represents the carrier of a MomoAddress.
- * The `scheme` is the string representation of the carrier as used in the DID Documents.
+ * @property scheme - the string representation of the carrier as used in the DID Documents.
  *
  * Carriers mentioned in the DAP specification have concrete implementations.
  * This allows type-safe matching of MomoAddress objects without matching on strings.

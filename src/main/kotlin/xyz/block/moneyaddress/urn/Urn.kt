@@ -6,8 +6,9 @@ import java.util.regex.Pattern
  * A Uniform Resource Name as defined by the IETF in [RFC-8141](https://datatracker.ietf.org/doc/html/rfc8141).
  *
  * A URN has the format `urn:<nid>:<nss>`.
- * - nid is a "Namespace Identifier"
- * - nss is a "Namespace Specific String"
+ *
+ * @property nid the "Namespace Identifier"
+ * @property nss the "Namespace Specific String"
  */
 data class Urn(
   val nid: String,

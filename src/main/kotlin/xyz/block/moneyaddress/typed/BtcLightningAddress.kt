@@ -9,9 +9,10 @@ import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
 
 /**
  * A typed representation of a Bitcoin lightning address.
- * The `address` is the string representation of the lightning address. This is not validated.
- * The `currency` will always be [BTC].
- * The `protocol` will always be [LIGHTNING_ADDRESS].
+ *
+ * @property address - the string representation of the lightning address. Not validated.
+ * @property currency - always [BTC].
+ * @property protocol - always [LIGHTNING_ADDRESS].
  */
 data class BtcLightningAddress(
   override val address: String,

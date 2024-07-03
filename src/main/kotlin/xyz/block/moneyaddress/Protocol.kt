@@ -3,7 +3,8 @@ package xyz.block.moneyaddress
 /**
  * Represents the protocol of a MoneyAddress.
  * These protocols are often, but not always, specific to a currency.
- * The `scheme` is the string representation of the protocol as used in the DID Documents.
+ *
+ * @property scheme the string representation of the protocol as used in the DID Documents.
  *
  * Protocols mentioned in the DAP specification have concrete implementations.
  * This allows type-safe matching of MoneyAddress objects without matching on strings.

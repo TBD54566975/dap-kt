@@ -9,9 +9,10 @@ import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
 
 /**
  * A typed representation of a Bitcoin on-chain address.
- * The `address` is the string representation of the on-chain address. This is not validated.
- * The `currency` will always be [BTC].
- * The `protocol` will always be [ONCHAIN_ADDRESS].
+ *
+ * @property address - the string representation of the on-chain address. Not validated.
+ * @property currency - always [BTC].
+ * @property protocol - always [ONCHAIN_ADDRESS].
  */
 data class BtcOnChainAddress(
   override val address: String,

@@ -7,10 +7,11 @@ import java.util.regex.Pattern
  *
  * A standard URN has the format `urn:<nid>:<nss>`.
  * A DAP URN has the format `urn:<currency>:<protocol>:<pss>`.
+ * The `nss` is split into the `protocol` and `pss` (protocol specific string).
  *
- * That is
- * - the `nid` is the `currency`
- * - the `nss` is split into the `protocol` and `pss` (protocol specific string).
+ * @property currency the currency code for the money address.
+ * @property protocol the protocol used to transfer the currency to the address.
+ * @property pss the "protocol specific string". Not validated.
  */
 data class DapUrn(
   val currency: String,
