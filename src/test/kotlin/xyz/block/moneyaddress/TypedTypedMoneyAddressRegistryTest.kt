@@ -9,8 +9,8 @@ import xyz.block.moneyaddress.MoneyAddressExamples.Companion.kesMomoMoneyAddress
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.kesMomoMoneyAddress2
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.manyMoneyAddresses
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.zzzUnrecognizedMoneyAddress1
-import xyz.block.moneyaddress.MoneyAddressRegistry.Companion.defaultMoneyAddressRegistry
-import xyz.block.moneyaddress.MoneyAddressRegistry.Companion.toTypedMoneyAddress
+import xyz.block.moneyaddress.TypedMoneyAddressRegistry.Companion.defaultTypedMoneyAddressRegistry
+import xyz.block.moneyaddress.TypedMoneyAddressRegistry.Companion.toTypedMoneyAddress
 import xyz.block.moneyaddress.Protocol.Companion.asProtocol
 import xyz.block.moneyaddress.typed.BtcLightningAddress
 import xyz.block.moneyaddress.typed.BtcOnChainAddress
@@ -21,7 +21,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
-class TypedMoneyAddressRegistryTest {
+class TypedTypedMoneyAddressRegistryTest {
 
   @Test
   fun toTypedAddress() {
@@ -43,26 +43,26 @@ class TypedMoneyAddressRegistryTest {
   @Test
   fun toTypedAddressWithDefaultRegistry() {
     assertIs<BtcLightningAddress>(
-      btcLightningMoneyAddress1.toTypedMoneyAddress(defaultMoneyAddressRegistry)
+      btcLightningMoneyAddress1.toTypedMoneyAddress(defaultTypedMoneyAddressRegistry)
     )
     assertIs<MobileMoneyAddress>(
-      kesMomoMoneyAddress1.toTypedMoneyAddress(defaultMoneyAddressRegistry)
+      kesMomoMoneyAddress1.toTypedMoneyAddress(defaultTypedMoneyAddressRegistry)
     )
     assertIs<UnrecognizedMoneyAddress>(
-      zzzUnrecognizedMoneyAddress1.toTypedMoneyAddress(defaultMoneyAddressRegistry)
+      zzzUnrecognizedMoneyAddress1.toTypedMoneyAddress(defaultTypedMoneyAddressRegistry)
     )
   }
 
   @Test
   fun toTypedAddressWithCustomRegistry() {
-    val moneyAddressRegistry = MoneyAddressRegistry()
-    assertIs<UnrecognizedMoneyAddress>(btcOnChainMoneyAddress1.toTypedMoneyAddress(moneyAddressRegistry))
+    val typedMoneyAddressRegistry = TypedMoneyAddressRegistry()
+    assertIs<UnrecognizedMoneyAddress>(btcOnChainMoneyAddress1.toTypedMoneyAddress(typedMoneyAddressRegistry))
 
-    BtcOnChainAddress.register(moneyAddressRegistry)
-    assertIs<BtcOnChainAddress>(btcOnChainMoneyAddress1.toTypedMoneyAddress(moneyAddressRegistry))
+    BtcOnChainAddress.register(typedMoneyAddressRegistry)
+    assertIs<BtcOnChainAddress>(btcOnChainMoneyAddress1.toTypedMoneyAddress(typedMoneyAddressRegistry))
 
-    moneyAddressRegistry.clear()
-    assertIs<UnrecognizedMoneyAddress>(btcOnChainMoneyAddress1.toTypedMoneyAddress(moneyAddressRegistry))
+    typedMoneyAddressRegistry.clear()
+    assertIs<UnrecognizedMoneyAddress>(btcOnChainMoneyAddress1.toTypedMoneyAddress(typedMoneyAddressRegistry))
   }
 
   @Test

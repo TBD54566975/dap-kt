@@ -22,7 +22,7 @@ open class TypedMoneyAddress<T>(
 }
 
 /**
- * Represents a MoneyAddress that is not recognized by the [MoneyAddressRegistry].
+ * Represents a MoneyAddress that is not recognized by the [TypedMoneyAddressRegistry].
  */
 data class UnrecognizedMoneyAddress(
   val pss: String,

@@ -3,7 +3,7 @@ package xyz.block.moneyaddress.typed
 import xyz.block.moneyaddress.Currency
 import xyz.block.moneyaddress.Currency.Companion.asCurrency
 import xyz.block.moneyaddress.MOBILE_MONEY
-import xyz.block.moneyaddress.MoneyAddressRegistry
+import xyz.block.moneyaddress.TypedMoneyAddressRegistry
 import xyz.block.moneyaddress.TypedMoneyAddress
 import xyz.block.moneyaddress.hasProtocol
 import xyz.block.moneyaddress.typed.Carrier.Companion.asCarrier
@@ -22,8 +22,8 @@ data class MobileMoneyAddress(
   override val id: String,
 ) : TypedMoneyAddress<MomoAddress>(address, currency, MOBILE_MONEY, id) {
   companion object {
-    fun register(moneyAddressRegistry: MoneyAddressRegistry) {
-      moneyAddressRegistry.register(MOBILE_MONEY) { address -> from(address) }
+    fun register(typedMoneyAddressRegistry: TypedMoneyAddressRegistry) {
+      typedMoneyAddressRegistry.register(MOBILE_MONEY) { address -> from(address) }
     }
 
     /**

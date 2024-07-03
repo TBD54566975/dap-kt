@@ -2,7 +2,7 @@ package xyz.block.moneyaddress.typed
 
 import xyz.block.moneyaddress.BTC
 import xyz.block.moneyaddress.TypedMoneyAddress
-import xyz.block.moneyaddress.MoneyAddressRegistry
+import xyz.block.moneyaddress.TypedMoneyAddressRegistry
 import xyz.block.moneyaddress.ONCHAIN_ADDRESS
 import xyz.block.moneyaddress.matches
 import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
@@ -18,8 +18,8 @@ data class BtcOnChainAddress(
   override val id: String,
 ) : TypedMoneyAddress<String>(address, BTC, ONCHAIN_ADDRESS, id) {
   companion object {
-    fun register(moneyAddressRegistry: MoneyAddressRegistry) {
-      moneyAddressRegistry.register(BTC, ONCHAIN_ADDRESS) { address -> from(address) }
+    fun register(typedMoneyAddressRegistry: TypedMoneyAddressRegistry) {
+      typedMoneyAddressRegistry.register(BTC, ONCHAIN_ADDRESS) { address -> from(address) }
     }
 
     /**

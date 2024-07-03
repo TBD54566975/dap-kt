@@ -10,16 +10,24 @@ import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
 
 /**
  * A factory function that converts an [UntypedMoneyAddress] to a [TypedMoneyAddress].
- * These are registered with the [MoneyAddressRegistry] in order to allow automatic conversion to the typed classes.
+ * These are registered with the [TypedMoneyAddressRegistry] in order to allow automatic conversion to the typed classes.
  */
-typealias MoneyAddressFactory<T> = (UntypedMoneyAddress) -> TypedMoneyAddress<T>
+typealias TypedMoneyAddressFactory<T> = (UntypedMoneyAddress) -> TypedMoneyAddress<T>
 
-class MoneyAddressRegistry {
+/**
+ * Provides type conversion from [MoneyAddress] to [TypedMoneyAddress].
+ * This is based on registered mappings from [Currency] and [Protocol] to [TypedMoneyAddressFactory] functions.
+ *
+ * There is a `defaultTypedMoneyAddressRegistry` that is pre-populated with the default mappings.
+ * New mappings can be added using the `register` method, for either a `Currency` and `Protocol` pair or just a `Protocol`.
+ * Mappings for the `Currency` and `Protocol` pair take precendence over mappings for just the `Protocol`.
+ */
+class TypedMoneyAddressRegistry {
   fun <T> register(
     currency: Currency,
     protocol: Protocol,
-    f: MoneyAddressFactory<T>
-  ): MoneyAddressRegistry {
+    f: TypedMoneyAddressFactory<T>
+  ): TypedMoneyAddressRegistry {
     if (cpMappings.put(Pair(currency, protocol), f) != null) {
       logger.warn {
         "Overwriting existing MoneyAddressRegistry entry [currency=$currency][protocol=$protocol]"
@@ -30,8 +38,8 @@ class MoneyAddressRegistry {
 
   fun <T> register(
     protocol: Protocol,
-    f: MoneyAddressFactory<T>
-  ): MoneyAddressRegistry {
+    f: TypedMoneyAddressFactory<T>
+  ): TypedMoneyAddressRegistry {
     if (pMappings.put(protocol, f) != null) {
       logger.warn {
         "Overwriting existing MoneyAddressRegistry entry [protocol=$protocol]"
@@ -45,8 +53,8 @@ class MoneyAddressRegistry {
     pMappings.clear()
   }
 
-  private val cpMappings = mutableMapOf<Pair<Currency, Protocol>, MoneyAddressFactory<*>>()
-  private val pMappings = mutableMapOf<Protocol, MoneyAddressFactory<*>>()
+  private val cpMappings = mutableMapOf<Pair<Currency, Protocol>, TypedMoneyAddressFactory<*>>()
+  private val pMappings = mutableMapOf<Protocol, TypedMoneyAddressFactory<*>>()
 
   fun toTypedMoneyAddress(ma: UntypedMoneyAddress): TypedMoneyAddress<*> =
     cpMappings[Pair(ma.currency.asCurrency(), ma.protocol.asProtocol())]?.invoke(ma)
@@ -56,15 +64,15 @@ class MoneyAddressRegistry {
   private val logger = KotlinLogging.logger {}
 
   companion object {
-    val defaultMoneyAddressRegistry: MoneyAddressRegistry = MoneyAddressRegistry()
+    val defaultTypedMoneyAddressRegistry: TypedMoneyAddressRegistry = TypedMoneyAddressRegistry()
 
     init {
-      BtcLightningAddress.register(defaultMoneyAddressRegistry)
-      BtcOnChainAddress.register(defaultMoneyAddressRegistry)
-      MobileMoneyAddress.register(defaultMoneyAddressRegistry)
+      BtcLightningAddress.register(defaultTypedMoneyAddressRegistry)
+      BtcOnChainAddress.register(defaultTypedMoneyAddressRegistry)
+      MobileMoneyAddress.register(defaultTypedMoneyAddressRegistry)
     }
 
-    fun UntypedMoneyAddress.toTypedMoneyAddress(moneyAddressRegistry: MoneyAddressRegistry = defaultMoneyAddressRegistry): TypedMoneyAddress<*> =
-      moneyAddressRegistry.toTypedMoneyAddress(this)
+    fun UntypedMoneyAddress.toTypedMoneyAddress(typedMoneyAddressRegistry: TypedMoneyAddressRegistry = defaultTypedMoneyAddressRegistry): TypedMoneyAddress<*> =
+      typedMoneyAddressRegistry.toTypedMoneyAddress(this)
   }
 }
