@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.5.2] - 2024-07-04
+- add type-safe layer (TypedMoneyAddress etc).
+- add logging
+
 ## [0.5.1] - 2024-06-26
 - Fix Dap.toString()
 
