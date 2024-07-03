@@ -1,14 +1,14 @@
 package xyz.block.moneyaddress
 
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcLightningMoneyAddress1
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcLightningMoneyAddress2
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcOnChainMoneyAddress1
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcOnChainMoneyAddress2
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.manyMoneyAddresses
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zarMomoMoneyAddress1
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zarMomoMoneyAddress2
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zzzUnrecognizedMoneyAddress1
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.zzzUnrecognizedMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.manyMoneyAddresses
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.zarMomoMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.zarMomoMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.zzzUnrecognizedMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.zzzUnrecognizedMoneyAddress2
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

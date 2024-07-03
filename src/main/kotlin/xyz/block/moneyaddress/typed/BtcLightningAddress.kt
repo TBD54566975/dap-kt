@@ -18,8 +18,8 @@ data class BtcLightningAddress(
   override val id: String,
 ) : TypedMoneyAddress<String>(address, BTC, LIGHTNING_ADDRESS, id) {
   companion object {
-    fun register() {
-      MoneyAddressRegistry.register(BTC, LIGHTNING_ADDRESS) { address -> from(address) }
+    fun register(moneyAddressRegistry: MoneyAddressRegistry) {
+      moneyAddressRegistry.register(BTC, LIGHTNING_ADDRESS) { address -> from(address) }
     }
 
     /**

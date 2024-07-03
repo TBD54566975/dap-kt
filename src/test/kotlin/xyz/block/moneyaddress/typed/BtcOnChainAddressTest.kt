@@ -1,6 +1,6 @@
 package xyz.block.moneyaddress.typed
 
-import xyz.block.moneyaddress.TypedMoneyAddressTest.Companion.btcOnChainMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress1
 import xyz.block.moneyaddress.typed.BtcOnChainAddress.Companion.toBtcOnChainAddress
 import kotlin.test.Test
 import kotlin.test.assertEquals

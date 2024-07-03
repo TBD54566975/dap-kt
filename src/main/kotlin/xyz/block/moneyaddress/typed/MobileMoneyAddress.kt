@@ -1,13 +1,10 @@
 package xyz.block.moneyaddress.typed
 
-import xyz.block.moneyaddress.BTC
 import xyz.block.moneyaddress.Currency
 import xyz.block.moneyaddress.Currency.Companion.asCurrency
-import xyz.block.moneyaddress.LIGHTNING_ADDRESS
 import xyz.block.moneyaddress.MOBILE_MONEY
-import xyz.block.moneyaddress.TypedMoneyAddress
 import xyz.block.moneyaddress.MoneyAddressRegistry
-import xyz.block.moneyaddress.UNRECOGNIZED_CURRENCY
+import xyz.block.moneyaddress.TypedMoneyAddress
 import xyz.block.moneyaddress.hasProtocol
 import xyz.block.moneyaddress.typed.Carrier.Companion.asCarrier
 import java.util.regex.Pattern
@@ -25,8 +22,8 @@ data class MobileMoneyAddress(
   override val id: String,
 ) : TypedMoneyAddress<MomoAddress>(address, currency, MOBILE_MONEY, id) {
   companion object {
-    fun register() {
-      MoneyAddressRegistry.register(MOBILE_MONEY) { address -> from(address) }
+    fun register(moneyAddressRegistry: MoneyAddressRegistry) {
+      moneyAddressRegistry.register(MOBILE_MONEY) { address -> from(address) }
     }
 
     /**

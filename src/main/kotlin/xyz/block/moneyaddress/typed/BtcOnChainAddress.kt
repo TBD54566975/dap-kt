@@ -18,8 +18,8 @@ data class BtcOnChainAddress(
   override val id: String,
 ) : TypedMoneyAddress<String>(address, BTC, ONCHAIN_ADDRESS, id) {
   companion object {
-    fun register() {
-      MoneyAddressRegistry.register(BTC, ONCHAIN_ADDRESS) { address -> from(address) }
+    fun register(moneyAddressRegistry: MoneyAddressRegistry) {
+      moneyAddressRegistry.register(BTC, ONCHAIN_ADDRESS) { address -> from(address) }
     }
 
     /**
