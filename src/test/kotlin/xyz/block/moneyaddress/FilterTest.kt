@@ -1,7 +1,9 @@
 package xyz.block.moneyaddress
 
-import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningMoneyAddress1
-import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningAddressMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningAddressMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningOfferMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningOfferMoneyAddress2
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress1
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress2
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.manyMoneyAddresses
@@ -19,10 +21,12 @@ class FilterTest {
     val bitcoinAddresses = manyMoneyAddresses.filter { it.hasCurrency(BTC) }
     assertEquals(
       listOf(
+        btcLightningAddressMoneyAddress1,
+        btcLightningAddressMoneyAddress2,
+        btcLightningOfferMoneyAddress1,
+        btcLightningOfferMoneyAddress2,
         btcOnChainMoneyAddress1,
         btcOnChainMoneyAddress2,
-        btcLightningMoneyAddress1,
-        btcLightningMoneyAddress2,
       ),
       bitcoinAddresses
     )

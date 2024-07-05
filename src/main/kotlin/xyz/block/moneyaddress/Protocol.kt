@@ -20,6 +20,7 @@ open class Protocol(open val scheme: String) {
       when (this) {
         ETHEREUM.scheme -> ETHEREUM
         LIGHTNING_ADDRESS.scheme -> LIGHTNING_ADDRESS
+        LIGHTNING_OFFER.scheme -> LIGHTNING_OFFER
         MOBILE_MONEY.scheme -> MOBILE_MONEY
         ONCHAIN_ADDRESS.scheme -> ONCHAIN_ADDRESS
         SILENT_PAYMENT_ADDRESS.scheme -> SILENT_PAYMENT_ADDRESS
@@ -31,6 +32,7 @@ open class Protocol(open val scheme: String) {
 
 data object ETHEREUM : Protocol("eth")
 data object LIGHTNING_ADDRESS : Protocol("lnaddr")
+data object LIGHTNING_OFFER : Protocol("lno")
 data object MOBILE_MONEY : Protocol("momo")
 data object ONCHAIN_ADDRESS : Protocol("addr")
 data object SILENT_PAYMENT_ADDRESS : Protocol("spaddr")
