@@ -47,7 +47,7 @@ class RegistryResolver {
   }
 
   private fun findDapRegistryUrl(didDocument: DidDocument, did: String): String {
-    val service = didDocument.service?.find { it.type == Dap.SERVICE_TYPE }
+    val service = didDocument.service?.find { it.type == SERVICE_TYPE }
       ?: throw RegistryResolutionException("DID document has no DAP registry service [did=$did]")
 
     if (service.serviceEndpoint.isEmpty()) {
@@ -58,6 +58,13 @@ class RegistryResolver {
   }
 
   private val logger = KotlinLogging.logger {}
+
+  companion object {
+    /**
+     * The service type of DAP registries in a DID Document.
+     */
+    const val SERVICE_TYPE = "DAPRegistry"
+  }
 }
 
 class RegistryResolutionException : Throwable {

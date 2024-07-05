@@ -8,8 +8,9 @@ import xyz.block.moneyaddress.MoneyAddress
  * See the [DAP spec](https://github.com/TBD54566975/dap#resolution) for the resolution process.
  *
  * This wires together the RegistryResolver, RegistryDidResolver, and MoneyAddressResolver.
+ *
  * The RegistryDidResolver will use the default configuration unless an instance is provided that
- * is constructed with a block configuration override.
+ * is constructed with a block configuration override (e.g. to change the HTTP engine configuration).
  */
 class DapResolver(
   private val registryDidResolver: RegistryDidResolver = RegistryDidResolver(),

@@ -6,6 +6,7 @@ import web5.sdk.dids.DidResolvers
 import web5.sdk.dids.didcore.DidDocument
 import web5.sdk.dids.didcore.Service
 import web5.sdk.dids.methods.web.DidWeb
+import xyz.block.dap.RegistryResolver.Companion.SERVICE_TYPE
 import java.util.UUID
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
@@ -73,7 +74,7 @@ class RegistryResolverTest {
   private fun serviceForEndpoint(serviceEndpoint: String): Service {
     return Service.Builder()
       .id(UUID.randomUUID().toString())
-      .type(Dap.SERVICE_TYPE)
+      .type(SERVICE_TYPE)
       .serviceEndpoint(listOf(serviceEndpoint))
       .build()
   }
