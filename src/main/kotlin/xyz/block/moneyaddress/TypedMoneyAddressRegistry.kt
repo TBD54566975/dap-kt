@@ -4,6 +4,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import xyz.block.moneyaddress.Currency.Companion.asCurrency
 import xyz.block.moneyaddress.Protocol.Companion.asProtocol
 import xyz.block.moneyaddress.typed.BtcLightningAddress
+import xyz.block.moneyaddress.typed.BtcLightningOffer
 import xyz.block.moneyaddress.typed.BtcOnChainAddress
 import xyz.block.moneyaddress.typed.MobileMoneyAddress
 import xyz.block.moneyaddress.MoneyAddress as UntypedMoneyAddress
@@ -68,6 +69,7 @@ class TypedMoneyAddressRegistry {
 
     init {
       BtcLightningAddress.register(defaultTypedMoneyAddressRegistry)
+      BtcLightningOffer.register(defaultTypedMoneyAddressRegistry)
       BtcOnChainAddress.register(defaultTypedMoneyAddressRegistry)
       MobileMoneyAddress.register(defaultTypedMoneyAddressRegistry)
     }

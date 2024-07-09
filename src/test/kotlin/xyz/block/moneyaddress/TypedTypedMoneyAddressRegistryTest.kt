@@ -1,8 +1,10 @@
 package xyz.block.moneyaddress
 
 import xyz.block.moneyaddress.Currency.Companion.asCurrency
-import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningMoneyAddress1
-import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningAddressMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningAddressMoneyAddress2
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningOfferMoneyAddress1
+import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcLightningOfferMoneyAddress2
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress1
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.btcOnChainMoneyAddress2
 import xyz.block.moneyaddress.MoneyAddressExamples.Companion.kesMomoMoneyAddress1
@@ -13,6 +15,7 @@ import xyz.block.moneyaddress.TypedMoneyAddressRegistry.Companion.defaultTypedMo
 import xyz.block.moneyaddress.TypedMoneyAddressRegistry.Companion.toTypedMoneyAddress
 import xyz.block.moneyaddress.Protocol.Companion.asProtocol
 import xyz.block.moneyaddress.typed.BtcLightningAddress
+import xyz.block.moneyaddress.typed.BtcLightningOffer
 import xyz.block.moneyaddress.typed.BtcOnChainAddress
 import xyz.block.moneyaddress.typed.MPESA
 import xyz.block.moneyaddress.typed.MobileMoneyAddress
@@ -25,10 +28,10 @@ class TypedTypedMoneyAddressRegistryTest {
 
   @Test
   fun toTypedAddress() {
-    val btcLightningAddress = btcLightningMoneyAddress1.toTypedMoneyAddress()
+    val btcLightningAddress = btcLightningAddressMoneyAddress1.toTypedMoneyAddress()
     assertIs<BtcLightningAddress>(btcLightningAddress)
     assertEquals(
-      BtcLightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1.id),
+      BtcLightningAddress(btcLightningAddressMoneyAddress1.pss, btcLightningAddressMoneyAddress1.id),
       btcLightningAddress
     )
 
@@ -43,7 +46,7 @@ class TypedTypedMoneyAddressRegistryTest {
   @Test
   fun toTypedAddressWithDefaultRegistry() {
     assertIs<BtcLightningAddress>(
-      btcLightningMoneyAddress1.toTypedMoneyAddress(defaultTypedMoneyAddressRegistry)
+      btcLightningAddressMoneyAddress1.toTypedMoneyAddress(defaultTypedMoneyAddressRegistry)
     )
     assertIs<MobileMoneyAddress>(
       kesMomoMoneyAddress1.toTypedMoneyAddress(defaultTypedMoneyAddressRegistry)
@@ -71,10 +74,12 @@ class TypedTypedMoneyAddressRegistryTest {
       manyMoneyAddresses.map { it.toTypedMoneyAddress() }.filter { it.currency == BTC }
     assertEquals(
       listOf(
+        BtcLightningAddress(btcLightningAddressMoneyAddress1.pss, btcLightningAddressMoneyAddress1.id),
+        BtcLightningAddress(btcLightningAddressMoneyAddress2.pss, btcLightningAddressMoneyAddress2.id),
+        BtcLightningOffer(btcLightningOfferMoneyAddress1.pss, btcLightningOfferMoneyAddress1.id),
+        BtcLightningOffer(btcLightningOfferMoneyAddress2.pss, btcLightningOfferMoneyAddress2.id),
         BtcOnChainAddress(btcOnChainMoneyAddress1.pss, btcOnChainMoneyAddress1.id),
         BtcOnChainAddress(btcOnChainMoneyAddress2.pss, btcOnChainMoneyAddress2.id),
-        BtcLightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1.id),
-        BtcLightningAddress(btcLightningMoneyAddress2.pss, btcLightningMoneyAddress2.id),
       ),
       bitcoinAddresses
     )
@@ -97,8 +102,8 @@ class TypedTypedMoneyAddressRegistryTest {
   fun toTypedAddressWithFilteringByIsInstance() {
     assertEquals(
       listOf(
-        BtcLightningAddress(btcLightningMoneyAddress1.pss, btcLightningMoneyAddress1.id),
-        BtcLightningAddress(btcLightningMoneyAddress2.pss, btcLightningMoneyAddress2.id),
+        BtcLightningAddress(btcLightningAddressMoneyAddress1.pss, btcLightningAddressMoneyAddress1.id),
+        BtcLightningAddress(btcLightningAddressMoneyAddress2.pss, btcLightningAddressMoneyAddress2.id),
       ),
       manyMoneyAddresses.map { it.toTypedMoneyAddress() }.filterIsInstance<BtcLightningAddress>()
     )
