@@ -7,42 +7,46 @@ import xyz.block.moneyaddress.LIGHTNING_ADDRESS
 import xyz.block.moneyaddress.ONCHAIN_ADDRESS
 import xyz.block.moneyaddress.TypedMoneyAddressRegistry.Companion.toTypedMoneyAddress
 import xyz.block.moneyaddress.typed.BtcLightningAddress
-import xyz.block.moneyaddress.typed.BtcOnChainAddress
 import kotlin.test.assertEquals
 
 fun main(args: Array<String>) {
-  val dapsToResolve =
-    if (args.isEmpty()) {
-      listOf(
-        "@moegrammer2/didpay.me",
-        "@thejoker/didpay.me",
-        "@thejoker-onchain/didpay.me",
-        "@thejoker-ln/didpay.me",
-        "@thejoker/cashstaging.app",
-        // "@thejoker/127.0.0.1%3A8802",
-      )
-    } else {
-      args.toList()
-    }
+  val dapString = if (args.isNotEmpty()) { args[0] } else { "@example/didpay.me" }
+  try {
+    val dap = Dap.parse(dapString)
+    val moneyAddresses = DapResolver().resolveMoneyAddresses(dap)
 
-  dapsToResolve.forEach { dap ->
-    try {
-      println("resolving DAP $dap")
-      val moneyAddresses = DapResolver().resolveMoneyAddresses(Dap.parse(dap)).map { it.toTypedMoneyAddress() }
-      val btcOnChainAddresses = moneyAddresses.filterIsInstance<BtcOnChainAddress>()
-      println("  found ${btcOnChainAddresses.count()} btc on-chain addresses")
+    println("Resolved money addresses for $dap: $moneyAddresses")
+
+    val typedMoneyAddresses = moneyAddresses.map { it.toTypedMoneyAddress() }
+    println("Resolved typed money addresses for $dap: $typedMoneyAddresses")
+
+    // filter by Currency and Protocol
+    val btcOnChainAddresses = moneyAddresses
+      .map { it.toTypedMoneyAddress() }
+      .filter { it.currency == BTC }
+      .filter { it.protocol == ONCHAIN_ADDRESS }
+    if (btcOnChainAddresses.isNotEmpty()) {
+      println("  found ${btcOnChainAddresses.count()} BTC on-chain addresses")
       btcOnChainAddresses.forEach {
         println("    $it")
         assertEquals(BTC, it.currency)
         assertEquals(ONCHAIN_ADDRESS, it.protocol)
       }
-      val btcLightningAddresses = moneyAddresses.filterIsInstance<BtcLightningAddress>()
-      println("  found ${btcLightningAddresses.count()} btc lightning addresses")
+    }
+
+    // filter by specific address type which encapsulates currency/protocol
+    val btcLightningAddresses = moneyAddresses
+      .map { it.toTypedMoneyAddress() }
+      .filterIsInstance<BtcLightningAddress>()
+    if (btcLightningAddresses.isNotEmpty()) {
+      println("  found ${btcLightningAddresses.count()} BTC lightning addresses")
       btcLightningAddresses.forEach {
         println("    $it")
         assertEquals(BTC, it.currency)
         assertEquals(LIGHTNING_ADDRESS, it.protocol)
       }
-    } catch (_: Throwable) { }
+    }
+  } catch (t: Throwable) {
+    println("Failed to resolve money addresses for $dapString: $t")
   }
 }

@@ -1,6 +1,5 @@
 package xyz.block.dap
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import xyz.block.moneyaddress.MoneyAddress
 
 /**
@@ -26,22 +25,12 @@ class DapResolver(
    * @return the list of money addresses for the DAP
    */
   fun resolveMoneyAddresses(dap: Dap): List<MoneyAddress> {
-    try {
-      val registryUrl = registryResolver.resolveRegistryUrl(dap)
-      val did = registryDidResolver.getUnprovenDid(registryUrl, dap)
-      val moneyAddresses = moneyAddressResolver.resolveMoneyAddresses(did)
-      logger.info {
-        "resolved money addresses [dap=$dap][moneyAddresses=${moneyAddresses.map { it.urn }}]"
-      }
-      return moneyAddresses
-    } catch (t: Throwable) {
-      logger.warn(t) { "error resolving money addresses for DAP [dap=$dap][error=${t.message}]" }
-      throw t
-    }
+    val registryUrl = registryResolver.resolveRegistryUrl(dap)
+    val did = registryDidResolver.getUnprovenDid(registryUrl, dap)
+    val moneyAddresses = moneyAddressResolver.resolveMoneyAddresses(did)
+    return moneyAddresses
   }
 
   // TODO - either use the registryDidResolver.getProvenDid above, or add a method
   // `resolveProvenMoneyAddresses` that verifies the proof of the DID returned by the registry
-
-  private val logger = KotlinLogging.logger {}
 }
